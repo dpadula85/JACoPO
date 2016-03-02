@@ -33,7 +33,11 @@ def options():
 
     parser.add_argument('--cub1', default='mon1.cub', type=str, help='''Transition Density Cube for monomer 1.''')
 
+    parser.add_argument('--geo1', default=None, type=str, help='''Geometry on which the Transition Density Cube of monomer 1 will be projected.''')
+
     parser.add_argument('--cub2', default='mon2.cub', type=str, help='''Transition Density Cube for monomer 2.''')
+
+    parser.add_argument('--geo2', default=None, type=str, help='''Geometry on which the Transition Density Cube of monomer 2 will be projected.''')
 
     parser.add_argument('--thresh', default=1e-5, type=float, help='''Threshold for Transition Density Cubes.''')
 
@@ -330,6 +334,9 @@ if __name__ == '__main__':
 
         # Coupling
         coupden = trden.couptrde(TrDenA, gridA, dVA, TrDenD, gridD, dVD, thresh)
+        print coupden
+        print coupden.shape
+        sys.exit()
         coup_PDA_den = coup_PDA(structD, dip1den, structA, dip2den)
 
     elapsed = (time.time() - start)

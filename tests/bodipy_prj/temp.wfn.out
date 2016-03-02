@@ -1,0 +1,230 @@
+ Warning: "settings.ini" was found neither in current folder nor in the path defined by "Multiwfnpath" environment variable. Now using default settings instead
+ 
+ Multiwfn -- A Multifunctional Wavefunction Analyzer (for Linux)
+ Version 3.3.8, release date: 2015-Dec-1
+ Project leader: Tian Lu  (Beijing Kein Research Center for Natural Sciences)
+ Citation of Multiwfn: Tian Lu, Feiwu Chen, J. Comp. Chem. 33, 580-592 (2012)
+ Multiwfn official website: http://Multiwfn.codeplex.com
+ Multiwfn official forum (in Chinese): http://bbs.keinsci.com
+ Bug reporting, question and suggestion, please contact: Sobereva@sina.com
+ ( The number of threads:  4   Current date: 2016-03-02   Time: 17:00:09 )
+ 
+ Input file path, for example E:\iDOLM@STER\Makoto_Kikuchi.wfn
+ (Supported types: .wfn/.wfx/.fch/.31/.chg/.pdb/.xyz/.cub/.grd/.molden, etc.)
+ Hint: To reload the file last time used, simply input the letter "o". Input such as ?miku.fch can open miku.fch in the same folder of the file last time used
+ Please wait...
+ Loading various information of the wavefunction
+ Loading basis-set definition...
+ Loading orbitals...
+ Converting basis function information to GTF information...
+ Generating overlap matrix...
+ Converting basis function information from Cartesian to spherical type...
+ Loading post-HF density matrix...
+ Note: Post-HF density matrix is loaded from .fch file, all of the following analyses based on basis information will be for post-HF wavefunction
+ 
+ Total/Alpha/Beta electrons:     98.0000     49.0000     49.0000
+ Net charge:     0.00000      Expected multiplicity:    1
+ Atoms:     21,  Basis functions:    518,  GTFs:    847
+ Total energy:  -681.205052469125 Hartree,   Virial ratio:  2.00616986
+ This is a restricted post-HF wavefunction
+ Title line of this file: bodipy_monomer_camccpvtz
+ Formula: H7 B1 C9 N2 F2 
+ Molecule weight:       191.97308
+
+ Loaded /home/dpadula/bodipy_prj/temp.fchk successfully!
+ 
+                    ------------ Main function menu ------------ 
+ -4 Exclude some atoms contribution to property
+ -3 Obtain a fragment contribution to property
+ 0 Show molecular structure and view orbitals
+ 1 Output all properties at a point
+ 2 Topology analysis
+ 3 Output and plot specific property in a line
+ 4 Output and plot specific property in a plane
+ 5 Output and plot specific property within a spatial region
+ 6 Check & modify wavefunction
+ 7 Population analysis
+ 8 Orbital composition analysis
+ 9 Bond order analysis
+ 10 Plot Total/Partial/Overlap population density-of-states (DOS)
+ 11 Plot IR/Raman/UV-Vis/ECD/VCD spectrum
+ 12 Quantitative analysis of molecular surface
+ 13 Process grid data (No grid data is presented currently)
+ 14 Adaptive natural density partitioning (AdNDP) analysis
+ 15 Fuzzy atomic space analysis
+ 16 Charge decomposition analysis (CDA) and extended CDA (ECDA)
+ 17 Basin analysis
+ 18 Electron excitation analysis
+ 100 Other functions (Part1)
+ 200 Other functions (Part2)
+             ------------ Electron excitation analyses ------------ 
+ 0 Return
+ 1 Analyze and visualize hole-electron distribution, transition dipole moment and transition density
+ 2 Plot transition density matrix as color-filled map
+ 3 Analyze charge-transfer based on density difference grid data (JCTC,7,2498)
+ 4 Calculate delta_r index to measure charge-transfer length (JCTC,9,3118)
+ 5 Calculate transition dipole moments between all excited states
+ Input the path of the Gaussian output file or plain text file containing excitation data, e.g. c:\a.out
+ There are    1 transition modes, analyze which one?  e.g. 2
+ Multiplicity of this excited state is   1
+ Excitation energy is   3.1035000 eV
+ There are    7287 orbital pairs in this transition mode
+ The sum of square of excitation coefficients:  0.511410
+ The negative of the sum of square of de-excitation coefficients: -0.011408
+ The sum of above two values  0.500001
+ 
+ -1 Toggle calculating transit. magnetic dip. density in option 1, current: No
+ 0 Return
+ 1 Visualize and analyze hole, electron and transition density and so on
+ 2 Show contribution of MO pairs to transition dipole moment
+ 3 Show contribution of each MO to hole and electron distribution
+ 4 Generate and export transition density matrix
+ 5 Decompose transition dipole moment to basis function and atom contributions
+ 6 Calculate Mulliken atomic transition charges
+ 10 Modify or check excitation coefficients
+ 
+ Please select a method to set up grid
+ -10 Set extension distance of grid range for mode 1~4, current:  6.000000 Bohr
+ 1 Low quality grid   , covering whole system, about 125000 points in total
+ 2 Medium quality grid, covering whole system, about 512000 points in total
+ 3 High quality grid  , covering whole system, about 1728000 points in total
+ 4 Input the number of points or grid spacing in X,Y,Z, covering whole system
+ 5 Input original point, translation vector and the number of points
+ 6 Input center coordinate, number of points and extension distance
+ 7 The same as 6, but input two atoms, the midpoint will be defined as center
+ 8 Use grid setting of another cube file
+Note: Don't view isosurface after generating the grid, the graph will be total incorrect
+ Coordinate of origin in X,Y,Z is  -14.421419   -8.166472   -9.815720 Bohr
+ Coordinate of end point in X,Y,Z is   14.452342    8.209690   11.300910 Bohr
+ Grid spacing in X,Y,Z is    0.430952    0.430952    0.430952 Bohr
+ The number of points in X,Y,Z is   68   39   50   Total:      132600
+ Note: During the calculation of cross term of electron, the orbital pairs whose absolute value of coefficient <0.01 will be ignored to save time
+ Calculating grid data...
+ Finished:    1/   50
+ Finished:    2/   50
+ Finished:    3/   50
+ Finished:    4/   50
+ Finished:    5/   50
+ Finished:    6/   50
+ Finished:    7/   50
+ Finished:    8/   50
+ Finished:    9/   50
+ Finished:   10/   50
+ Finished:   11/   50
+ Finished:   12/   50
+ Finished:   13/   50
+ Finished:   14/   50
+ Finished:   15/   50
+ Finished:   16/   50
+ Finished:   17/   50
+ Finished:   18/   50
+ Finished:   19/   50
+ Finished:   20/   50
+ Finished:   21/   50
+ Finished:   22/   50
+ Finished:   23/   50
+ Finished:   24/   50
+ Finished:   25/   50
+ Finished:   26/   50
+ Finished:   27/   50
+ Finished:   28/   50
+ Finished:   29/   50
+ Finished:   30/   50
+ Finished:   31/   50
+ Finished:   32/   50
+ Finished:   33/   50
+ Finished:   34/   50
+ Finished:   36/   50
+ Finished:   35/   50
+ Finished:   37/   50
+ Finished:   38/   50
+ Finished:   39/   50
+ Finished:   40/   50
+ Finished:   41/   50
+ Finished:   42/   50
+ Finished:   43/   50
+ Finished:   44/   50
+ Finished:   45/   50
+ Finished:   46/   50
+ Finished:   47/   50
+ Finished:   48/   50
+ Finished:   49/   50
+ Finished:   50/   50
+ Totally took up CPU time       56.99s, wall clock time        15s
+
+ Integral of hole:    0.997533
+ Integral of electron:    0.996881
+ Integral of transition density:   -0.000339
+ Transition dipole moment in X/Y/Z:   2.543476   0.000043  -0.001226 a.u.
+ Integral of overlap of hole-electron distribution:   0.4791769
+ Centroid of hole in X/Y/Z:       -0.000007   -0.000111    0.456993 Angstrom
+ Centroid of electron in X/Y/Z:   -0.000056   -0.000115    0.761167 Angstrom
+ Distance between centroid of hole and electron in X/Y/Z:
+    0.000048    0.000003    0.304174 Angstrom   Norm:    0.304174 Angstrom
+ Variation of dipole moment with respect to ground state in X/Y/Z:
+    0.000091    0.000007   -0.573200 a.u.   Norm:    0.573200 a.u.
+ RMSD of electron in x,y,z:   2.158   0.792   1.254   Total:   2.618 Angstrom
+ RMSD of hole in x,y,z:       2.384   0.773   0.894   Total:   2.661 Angstrom
+ H index in x,y,z:   2.271   0.783   1.074   Norm:   2.631 Angstrom
+ t index in x,y,z:  -2.271  -0.783  -0.770   Norm:   2.522 Angstrom
+ 
+ 0 Return
+ 1 Show isosurface of hole distribution
+ 2 Show isosurface of electron distribution
+ 3 Show isosurface of hole and electron distribution simultaneously
+ 4 Show isosurface of overlap of hole-electron
+ 5 Show isosurface of transition density
+ 6 Show isosurface of transition dipole moment density
+ 7 Show isosurface of charge density difference
+ 8 Show isosurface of Cele and Chole functions simultaneously
+ 10 Output cube file of hole distribution to current folder
+ 11 Output cube file of electron distribution to current folder
+ 12 Output cube file of overlap of hole-electron to current folder
+ 13 Output cube file of transition density to current folder
+ 14 Output cube file of transition dipole moment density to current folder
+ 15 Output cube file of charge density difference to current folder
+ 16 Output cube file of Cele and Chole functions to current folder
+ 17 Output cube file of transition magnetic dipole moment density
+ Outputting transition density to transdens.cub in current folder
+ Please wait...
+ Done!
+ 
+ 0 Return
+ 1 Show isosurface of hole distribution
+ 2 Show isosurface of electron distribution
+ 3 Show isosurface of hole and electron distribution simultaneously
+ 4 Show isosurface of overlap of hole-electron
+ 5 Show isosurface of transition density
+ 6 Show isosurface of transition dipole moment density
+ 7 Show isosurface of charge density difference
+ 8 Show isosurface of Cele and Chole functions simultaneously
+ 10 Output cube file of hole distribution to current folder
+ 11 Output cube file of electron distribution to current folder
+ 12 Output cube file of overlap of hole-electron to current folder
+ 13 Output cube file of transition density to current folder
+ 14 Output cube file of transition dipole moment density to current folder
+ 15 Output cube file of charge density difference to current folder
+ 16 Output cube file of Cele and Chole functions to current folder
+ 17 Output cube file of transition magnetic dipole moment density
+ 
+ -1 Toggle calculating transit. magnetic dip. density in option 1, current: No
+ 0 Return
+ 1 Visualize and analyze hole, electron and transition density and so on
+ 2 Show contribution of MO pairs to transition dipole moment
+ 3 Show contribution of each MO to hole and electron distribution
+ 4 Generate and export transition density matrix
+ 5 Decompose transition dipole moment to basis function and atom contributions
+ 6 Calculate Mulliken atomic transition charges
+ 10 Modify or check excitation coefficients
+ Generating transition density matrix...
+ Done! Mulliken atomic transition charges have been outputted to atmtrchg.chg in current folder
+ 
+ -1 Toggle calculating transit. magnetic dip. density in option 1, current: No
+ 0 Return
+ 1 Visualize and analyze hole, electron and transition density and so on
+ 2 Show contribution of MO pairs to transition dipole moment
+ 3 Show contribution of each MO to hole and electron distribution
+ 4 Generate and export transition density matrix
+ 5 Decompose transition dipole moment to basis function and atom contributions
+ 6 Calculate Mulliken atomic transition charges
+ 10 Modify or check excitation coefficients
