@@ -300,15 +300,36 @@ if __name__ == '__main__':
         cub2file = args.cub2
         thresh = args.thresh
 
+        # Parse .cub files
         TrDenD, dVxD, dVyD, dVzD, NXD, NYD, NZD, OD, structD = parse_TrDen(cub1file)
         TrDenA, dVxA, dVyA, dVzA, NXA, NYA, NZA, OA, structA = parse_TrDen(cub2file)
 
-        dip1den = trden.diptrde(TrDenD, dVxD, dVyD, dVzD, OD)
+        # Generate parameters for grid generation
+        dVD = dVxD * dVyD * dVzD
+        ND = NXD * NYD * NZD
+        dVA = dVxA * dVyA * dVzA
+        NA = NXA * NYA * NZA
+
+        # Reshape TrDen 3D array to 1D array
+        TrDenA = TrDenA.reshape(NA)
+        TrDenD = TrDenD.reshape(ND)
+
+        # Generate 4D array of grid points and reshape it to a 2D array
+        gridA = trden.gengrid(OA, dVxA, dVyA, dVzA, NXA, NYA, NZA)
+        gridA = gridA.reshape(NA,3)
+        gridA = np.asfortranarray(gridA)
+        gridD = trden.gengrid(OD, dVxD, dVyD, dVzD, NXD, NYD, NZD)
+        gridD = gridD.reshape(ND,3)
+        gridD = np.asfortranarray(gridD)
+
+        # Dipoles
+        dip1den = trden.diptrde(TrDenD, gridD, dVD)
         dip1denmod = np.linalg.norm(dip1den)
-        dip2den = trden.diptrde(TrDenA, dVxA, dVyA, dVzA, OA)
+        dip2den = trden.diptrde(TrDenA, gridA, dVA)
         dip2denmod = np.linalg.norm(dip2den)
 
-        coupden = trden.couptr(TrDenA,dVxA,dVyA,dVzA,OA,TrDenD,dVxD,dVyD,dVzD,OD,thresh)
+        # Coupling
+        coupden = trden.couptrde(TrDenA, gridA, dVA, TrDenD, gridD, dVD, thresh)
         coup_PDA_den = coup_PDA(structD, dip1den, structA, dip2den)
 
     elapsed = (time.time() - start)
