@@ -1,3 +1,10 @@
+##############
+##  JACoPO  ##
+##############
+
+Just Another COupling Program, Obviously
+
+
 ###################################
 ##  Coupling Transition Charges  ##
 ###################################
@@ -43,7 +50,7 @@ Acceptor Electric Transition Dipole Moment from Transition Charges in a.u.:
   0.0000   1.6566  -0.0000          1.6566
 
 
-Electronic Coupling according to PDA from Dipoles from Transition Charges:
+Electronic Coupling according to PDA from Dipoles from Transition Charges in cm-1:
 1394.54   
 
 Electronic Coupling in cm-1:
@@ -68,7 +75,7 @@ Acceptor Electric Transition Dipole Moment from Transition Density in a.u.:
   0.0000   1.7624  -0.0007          1.7624
 
 
-Electronic Coupling according to PDA from Dipoles from Transition Densities:
+Electronic Coupling according to PDA from Dipoles from Transition Densities in cm-1:
 1578.42   
 
 Electronic Coupling in cm-1:
@@ -79,9 +86,10 @@ Electronic Coupling in cm-1:
 ##  Results Table  ##
 #####################
 
- Calculation time (seconds):      89.03
- #Method          Coupling (cm-1)
----------------------------------
+ Calculation time: 00:01:18
+
+# Method          Coupling (cm-1)
+#--------------------------------
  Tr Chgs           793.57 
  PDA Dip Chgs     1394.54 
  Tr Den           1405.30 

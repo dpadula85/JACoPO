@@ -413,13 +413,11 @@ if __name__ == '__main__':
         atoms1 = np.genfromtxt(chg1file,usecols=[0], dtype="|S5")
         atoms1 = map(lambda x: ELEMENTS[x].mass, atoms1)
         struct1 = data1[:,1:4] / au2ang
-        fs1 = np.c_[atoms1,struct1]
         chgs1 = data1[:,-1]
         
         atoms2 = np.genfromtxt(chg2file,usecols=[0], dtype="|S5")
         atoms2 = map(lambda x: ELEMENTS[x].mass, atoms2)
         struct2 = data2[:,1:4] / au2ang
-        fs2 = np.c_[atoms2,struct2]
         chgs2 = data2[:,-1]
 
         coupchgs = coup_chgs(struct1, chgs1, struct2, chgs2)
@@ -428,7 +426,7 @@ if __name__ == '__main__':
         dip2chgs = dipole_chgs(struct2, chgs2)
         dip2chgsmod = np.linalg.norm(dip2chgs)
 
-        coup_PDA_chgs = coup_PDA(fs1, dip1chgs, fs2, dip2chgs)
+        coup_PDA_chgs = coup_PDA(struct1, atoms1, dip1chgs, struct2, atoms2, dip2chgs)
 
     #
     # Process Transition Cubes
