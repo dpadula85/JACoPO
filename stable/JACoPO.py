@@ -562,7 +562,8 @@ if __name__ == '__main__':
         f.write('##  JACoPO  ##\n')
         f.write('##############\n')
         f.write('\n')
-        f.write('Just Another COupling Program, Obviously\n')
+        f.write('JACoPO: Just Another COupling Program, Obviously\n')
+        f.write('JACoPO.py  Copyright (C) 2016  Daniele Padula, Marco Campetella\n')
 
         if ChgsDone:
             f.write('\n\n')
