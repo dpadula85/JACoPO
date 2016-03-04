@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
 import sys
 import time
 import numpy as np
@@ -413,6 +414,9 @@ if __name__ == '__main__':
 
         if chg1file and chg2file:
 
+            checkfile(chg1file)
+            checkfile(chg2file)
+
             data1 = np.genfromtxt(chg1file)
             data2 = np.genfromtxt(chg2file)
 
@@ -453,6 +457,9 @@ if __name__ == '__main__':
 
         if cub1file and cub2file:
 
+            checkfile(cub1file)
+            checkfile(cub2file)
+
             # Parse .cub files
             TrDenD, dVxD, dVyD, dVzD, NXD, NYD, NZD, OD, structD = parse_TrDen(cub1file)
             atomsD = structD[:,0]
@@ -491,6 +498,7 @@ if __name__ == '__main__':
                     structD_rmsd = structD_rmsd[selcub1]
 
                 # Get structure from final geometry file
+                checkfile(geo1)
                 atgeoD, structgeoD = read_geo(geo1)
                 structgeoD_rmsd = np.copy(structgeoD)
 
@@ -520,6 +528,7 @@ if __name__ == '__main__':
                     structA_rmsd = structA_rmsd[selcub2]
 
                 # Get structure from final geometry file
+                checkfile(geo2)
                 atgeoA, structgeoA = read_geo(geo2)
                 structgeoA_rmsd = np.copy(structgeoA)
 

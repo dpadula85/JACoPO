@@ -2,7 +2,8 @@
 ##  JACoPO  ##
 ##############
 
-Just Another COupling Program, Obviously
+JACoPO: Just Another COupling Program, Obviously
+JACoPO.py  Copyright (C) 2016  Daniele Padula, Marco Campetella
 
 
 ###################################
@@ -108,7 +109,7 @@ Electronic Coupling in cm-1:
 ##  Results Table  ##
 #####################
 
- Calculation time: 00:24:25
+ Calculation time: 00:25:40
 
 # Method          Coupling (cm-1)
 #--------------------------------
