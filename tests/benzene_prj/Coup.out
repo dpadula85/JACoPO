@@ -1,0 +1,48 @@
+##############
+##  JACoPO  ##
+##############
+
+Just Another COupling Program, Obviously
+
+
+#####################################
+##  Coupling Transition Densities  ##
+#####################################
+
+Coupling calculated from transition densities according to
+J. Phys. Chem. B, 1998, 102, 5378
+
+
+Structure and Transition Density Cube in temp.cub moved to match geometry in 1.inc
+RMSD (Ang):   0.0000
+
+Donor Electric Transition Dipole Moment from Transition Density in a.u.:
+       x        y        z            norm
+  0.0000   1.7624   0.0006          1.7624
+
+
+Structure and Transition Density Cube in temp.cub moved to match geometry in 2.inc
+RMSD (Ang):   0.0000
+
+Acceptor Electric Transition Dipole Moment from Transition Density in a.u.:
+       x        y        z            norm
+  0.0000   1.7624  -0.0007          1.7624
+
+
+Electronic Coupling according to PDA from Dipoles from Transition Densities in cm-1:
+1578.41   
+
+Electronic Coupling in cm-1:
+1405.30   
+
+
+#####################
+##  Results Table  ##
+#####################
+
+ Calculation time: 00:01:17
+
+# Method          Coupling (cm-1)
+#--------------------------------
+ Tr Den           1405.30 
+ PDA Dip Den      1578.41 

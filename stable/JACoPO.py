@@ -42,8 +42,8 @@ def options():
     parser = arg.ArgumentParser(description='Calculates Electronic Coupling from Transition Charges and Densities.', formatter_class=arg.ArgumentDefaultsHelpFormatter)
 
     # Optional arguments
-    parser.add_argument('--chg1', default='mon1.chg', type=str, help='''File with coordinates and charges for monomer 1.''')
-    parser.add_argument('--chg2', default='mon2.chg', type=str, help='''File with coordinates and charges for monomer 2.''')
+    parser.add_argument('--chg1', default=None, type=str, help='''File with coordinates and charges for monomer 1.''')
+    parser.add_argument('--chg2', default=None, type=str, help='''File with coordinates and charges for monomer 2.''')
 
     parser.add_argument('--cub1', default='mon1.cub', type=str, help='''Transition Density Cube for monomer 1.''')
     parser.add_argument('--selcub1', default=None, nargs='+', type=str,
@@ -52,11 +52,11 @@ def options():
     parser.add_argument('--geo1', default=None, type=str,
             help='''Geometry on which the Transition Density Cube of monomer 1 will be projected. (Units: Angstrom)''')
     parser.add_argument('--selgeo1', default=None, nargs='+', type=str,
-            help='''Atom Selection for geometry 1. This can either be a list or a file.''')
+            help='''Atom Selection for geometry 1. This can either be a list or a file, which should contain the list.''')
 
     parser.add_argument('--cub2', default='mon2.cub', type=str, help='''Transition Density Cube for monomer 2.''')
     parser.add_argument('--selcub2', default=None, nargs='+', type=str,
-            help='''Atom Selection for Transition Density Cube for monomer 2. This can either be a list or a file.''')
+            help='''Atom Selection for Transition Density Cube for monomer 2. This can either be a list or a file, which should contain the list.''')
 
     parser.add_argument('--geo2', default=None, type=str,
             help='''Geometry on which the Transition Density Cube of monomer 2 will be projected. (Units: Angstrom)''')
@@ -65,7 +65,9 @@ def options():
 
     parser.add_argument('--thresh', default=1e-5, type=float, help='''Threshold for Transition Density Cubes.''')
 
-    parser.add_argument('--coup', default=None, type=str, choices=['chgs', 'den'], help='''Method of Calculation of the Electronic Coupling.''')
+    parser.add_argument('--coup', default=None, type=str, choices=['chgs', 'den'],
+            help='''Method of Calculation of the Electronic Coupling. If no method is specified, both method will
+            be used.''')
 
     parser.add_argument('-o', '--output', default='Coup.out', type=str, help='''Output File.''')
 
@@ -403,34 +405,40 @@ if __name__ == '__main__':
     #
     # Process Transition Charges
     #
+    ChgsDone = False
     if not calctype or calctype == 'chgs':
+
         chg1file = args.chg1
         chg2file = args.chg2
 
-        data1 = np.genfromtxt(chg1file)
-        data2 = np.genfromtxt(chg2file)
+        if chg1file and chg2file:
 
-        atoms1 = np.genfromtxt(chg1file,usecols=[0], dtype="|S5")
-        atoms1 = map(lambda x: ELEMENTS[x].mass, atoms1)
-        struct1 = data1[:,1:4] / au2ang
-        chgs1 = data1[:,-1]
-        
-        atoms2 = np.genfromtxt(chg2file,usecols=[0], dtype="|S5")
-        atoms2 = map(lambda x: ELEMENTS[x].mass, atoms2)
-        struct2 = data2[:,1:4] / au2ang
-        chgs2 = data2[:,-1]
+            data1 = np.genfromtxt(chg1file)
+            data2 = np.genfromtxt(chg2file)
 
-        coupchgs = coup_chgs(struct1, chgs1, struct2, chgs2)
-        dip1chgs = dipole_chgs(struct1, chgs1)
-        dip1chgsmod = np.linalg.norm(dip1chgs)
-        dip2chgs = dipole_chgs(struct2, chgs2)
-        dip2chgsmod = np.linalg.norm(dip2chgs)
+            atoms1 = np.genfromtxt(chg1file,usecols=[0], dtype="|S5")
+            atoms1 = map(lambda x: ELEMENTS[x].mass, atoms1)
+            struct1 = data1[:,1:4] / au2ang
+            chgs1 = data1[:,-1]
+            
+            atoms2 = np.genfromtxt(chg2file,usecols=[0], dtype="|S5")
+            atoms2 = map(lambda x: ELEMENTS[x].mass, atoms2)
+            struct2 = data2[:,1:4] / au2ang
+            chgs2 = data2[:,-1]
 
-        coup_PDA_chgs = coup_PDA(struct1, atoms1, dip1chgs, struct2, atoms2, dip2chgs)
+            coupchgs = coup_chgs(struct1, chgs1, struct2, chgs2)
+            dip1chgs = dipole_chgs(struct1, chgs1)
+            dip1chgsmod = np.linalg.norm(dip1chgs)
+            dip2chgs = dipole_chgs(struct2, chgs2)
+            dip2chgsmod = np.linalg.norm(dip2chgs)
+
+            coup_PDA_chgs = coup_PDA(struct1, atoms1, dip1chgs, struct2, atoms2, dip2chgs)
+            ChgsDone = True
 
     #
     # Process Transition Cubes
     #
+    TrDenDone = False
     if FModule and (not calctype or calctype == 'den'):
 
         cub1file = args.cub1
@@ -443,103 +451,106 @@ if __name__ == '__main__':
         selgeo1 = args.selgeo1
         selgeo2 = args.selgeo2
 
-        # Parse .cub files
-        TrDenD, dVxD, dVyD, dVzD, NXD, NYD, NZD, OD, structD = parse_TrDen(cub1file)
-        atomsD = structD[:,0]
-        structD = structD[:,1:]
+        if cub1file and cub2file:
 
-        TrDenA, dVxA, dVyA, dVzA, NXA, NYA, NZA, OA, structA = parse_TrDen(cub2file)
-        atomsA = structA[:,0]
-        structA = structA[:,1:]
+            # Parse .cub files
+            TrDenD, dVxD, dVyD, dVzD, NXD, NYD, NZD, OD, structD = parse_TrDen(cub1file)
+            atomsD = structD[:,0]
+            structD = structD[:,1:]
 
-        # Generate parameters for grid generation
-        dVD = dVxD * dVyD * dVzD
-        ND = NXD * NYD * NZD
-        dVA = dVxA * dVyA * dVzA
-        NA = NXA * NYA * NZA
+            TrDenA, dVxA, dVyA, dVzA, NXA, NYA, NZA, OA, structA = parse_TrDen(cub2file)
+            atomsA = structA[:,0]
+            structA = structA[:,1:]
 
-        # Reshape TrDen 3D array to 1D array
-        TrDenD = TrDenD.reshape(ND)
-        TrDenA = TrDenA.reshape(NA)
+            # Generate parameters for grid generation
+            dVD = dVxD * dVyD * dVzD
+            ND = NXD * NYD * NZD
+            dVA = dVxA * dVyA * dVzA
+            NA = NXA * NYA * NZA
 
-        # Generate 4D array of grid points and reshape it to a 2D array
-        gridD = trden.gengrid(OD, dVxD, dVyD, dVzD, NXD, NYD, NZD)
-        gridD = gridD.reshape(ND,3)
-        gridD = np.asfortranarray(gridD)
-        gridA = trden.gengrid(OA, dVxA, dVyA, dVzA, NXA, NYA, NZA)
-        gridA = gridA.reshape(NA,3)
-        gridA = np.asfortranarray(gridA)
+            # Reshape TrDen 3D array to 1D array
+            TrDenD = TrDenD.reshape(ND)
+            TrDenA = TrDenA.reshape(NA)
 
-        # Rotate grids if reference geometries are provided
-        if geo1:
+            # Generate 4D array of grid points and reshape it to a 2D array
+            gridD = trden.gengrid(OD, dVxD, dVyD, dVzD, NXD, NYD, NZD)
+            gridD = gridD.reshape(ND,3)
+            gridD = np.asfortranarray(gridD)
+            gridA = trden.gengrid(OA, dVxA, dVyA, dVzA, NXA, NYA, NZA)
+            gridA = gridA.reshape(NA,3)
+            gridA = np.asfortranarray(gridA)
 
-            structD_rmsd = np.copy(structD)
+            # Rotate grids if reference geometries are provided
+            if geo1:
 
-            if selcub1:
+                structD_rmsd = np.copy(structD)
 
-                selcub1 = process_selection(selcub1)
-                structD_rmsd = structD_rmsd[selcub1]
+                if selcub1:
 
-            # Get structure from final geometry file
-            atgeoD, structgeoD = read_geo(geo1)
-            structgeoD_rmsd = np.copy(structgeoD)
+                    selcub1 = process_selection(selcub1)
+                    structD_rmsd = structD_rmsd[selcub1]
 
-            if selgeo1:
+                # Get structure from final geometry file
+                atgeoD, structgeoD = read_geo(geo1)
+                structgeoD_rmsd = np.copy(structgeoD)
 
-                selgeo1 =  process_selection(selgeo1)
-                structgeoD_rmsd = structgeoD_rmsd[selgeo1]
+                if selgeo1:
 
-            # Transform grid and structure according to the RMSD
-            RMSDD, MD, T1D, T2D = kabsch(structgeoD_rmsd, structD_rmsd)
+                    selgeo1 =  process_selection(selgeo1)
+                    structgeoD_rmsd = structgeoD_rmsd[selgeo1]
 
-            structD = structD - T1D
-            structD = np.dot(structD, MD)
-            structD = structD + T2D
+                # Transform grid and structure according to the RMSD
+                RMSDD, MD, T1D, T2D = kabsch(structgeoD_rmsd, structD_rmsd)
 
-            gridD = gridD - T1D
-            gridD = np.dot(gridD, MD)
-            gridD = gridD + T2D
+                structD = structD - T1D
+                structD = np.dot(structD, MD)
+                structD = structD + T2D
 
-        if geo2:
+                gridD = gridD - T1D
+                gridD = np.dot(gridD, MD)
+                gridD = gridD + T2D
 
-            structA_rmsd = np.copy(structA)
+            if geo2:
 
-            if selcub2:
+                structA_rmsd = np.copy(structA)
 
-                selcub2 = process_selection(selcub2)
-                structA_rmsd = structA_rmsd[selcub2]
+                if selcub2:
 
-            # Get structure from final geometry file
-            atgeoA, structgeoA = read_geo(geo2)
-            structgeoA_rmsd = np.copy(structgeoA)
+                    selcub2 = process_selection(selcub2)
+                    structA_rmsd = structA_rmsd[selcub2]
 
-            if selgeo2:
+                # Get structure from final geometry file
+                atgeoA, structgeoA = read_geo(geo2)
+                structgeoA_rmsd = np.copy(structgeoA)
 
-                selgeo2 =  process_selection(selgeo2)
-                structgeoA_rmsd = structgeoA_rmsd[selgeo2]
+                if selgeo2:
 
-
-            # Transform grid and structure according to the RMSD
-            RMSDA, MA, T1A, T2A= kabsch(structgeoA_rmsd, structA_rmsd)
-
-            structA = structA - T1A
-            structA = np.dot(structA, MA)
-            structA = structA + T2A
-
-            gridA = gridA - T1A
-            gridA = np.dot(gridA, MA)
-            gridA = gridA + T2A
+                    selgeo2 =  process_selection(selgeo2)
+                    structgeoA_rmsd = structgeoA_rmsd[selgeo2]
 
 
-        # Dipoles
-        dip1den = trden.diptrde(TrDenD, gridD, dVD)
-        dip1denmod = np.linalg.norm(dip1den)
-        dip2den = trden.diptrde(TrDenA, gridA, dVA)
-        dip2denmod = np.linalg.norm(dip2den)
+                # Transform grid and structure according to the RMSD
+                RMSDA, MA, T1A, T2A= kabsch(structgeoA_rmsd, structA_rmsd)
 
-        # Coupling
-        coupden = trden.couptrde(TrDenA, gridA, dVA, TrDenD, gridD, dVD, thresh)
-        coup_PDA_den = coup_PDA(structD, atomsD, dip1den, structA, atomsA, dip2den)
+                structA = structA - T1A
+                structA = np.dot(structA, MA)
+                structA = structA + T2A
+
+                gridA = gridA - T1A
+                gridA = np.dot(gridA, MA)
+                gridA = gridA + T2A
+
+
+            # Dipoles
+            dip1den = trden.diptrde(TrDenD, gridD, dVD)
+            dip1denmod = np.linalg.norm(dip1den)
+            dip2den = trden.diptrde(TrDenA, gridA, dVA)
+            dip2denmod = np.linalg.norm(dip2den)
+
+            # Coupling
+            coupden = trden.couptrde(TrDenA, gridA, dVA, TrDenD, gridD, dVD, thresh)
+            coup_PDA_den = coup_PDA(structD, atomsD, dip1den, structA, atomsA, dip2den)
+            TrDenDone = True
 
     elapsed = (time.time() - start)
     elapsed = time.strftime("%H:%M:%S", time.gmtime(elapsed))
@@ -553,7 +564,7 @@ if __name__ == '__main__':
         f.write('\n')
         f.write('Just Another COupling Program, Obviously\n')
 
-        if not calctype or calctype == 'chgs':
+        if ChgsDone:
             f.write('\n\n')
             f.write('###################################\n')
             f.write('##  Coupling Transition Charges  ##\n')
@@ -584,7 +595,7 @@ if __name__ == '__main__':
             f.write('Electronic Coupling in cm-1:\n')
             f.write('%-10.2f\n' % coupchgs)
 
-        if FModule and (not calctype or calctype == 'den'):
+        if TrDenDone:
             f.write('\n\n')
             f.write('#####################################\n')
             f.write('##  Coupling Transition Densities  ##\n')
@@ -656,10 +667,10 @@ if __name__ == '__main__':
         f.write('# Method          Coupling (cm-1)\n')
         f.write('#--------------------------------\n')
 
-        if not calctype or calctype == 'chgs':
+        if ChgsDone:
             f.write(' Tr Chgs         %8.2f \n' % coupchgs)
             f.write(' PDA Dip Chgs    %8.2f \n' % coup_PDA_chgs)
 
-        if FModule and (not calctype or calctype == 'den'):
+        if TrDenDone:
             f.write(' Tr Den          %8.2f \n' % coupden)
             f.write(' PDA Dip Den     %8.2f \n' % coup_PDA_den)
