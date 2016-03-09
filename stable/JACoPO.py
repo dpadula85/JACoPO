@@ -67,7 +67,7 @@ def options():
     parser.add_argument('--thresh', default=1e-5, type=float, help='''Threshold for Transition Density Cubes.''')
 
     parser.add_argument('--coup', default=None, type=str, choices=['chgs', 'den'],
-            help='''Method of Calculation of the Electronic Coupling. If no method is specified, both method will
+            help='''Method of Calculation of the Electronic Coupling. If no method is specified, both methods will
             be used.''')
 
     parser.add_argument('-o', '--output', default='Coup.out', type=str, help='''Output File.''')
@@ -475,9 +475,11 @@ if __name__ == '__main__':
             dVA = dVxA * dVyA * dVzA
             NA = NXA * NYA * NZA
 
-            # Reshape TrDen 3D array to 1D array
+            # Reshape TrDen 3D array to 1D array and rescale it to have its integral zero
             TrDenD = TrDenD.reshape(ND)
             TrDenA = TrDenA.reshape(NA)
+            TrDenD -= sum(TrDenD) / len(TrDenD)
+            TrDenA -= sum(TrDenA) / len(TrDenA)
 
             # Generate 4D array of grid points and reshape it to a 2D array
             gridD = trden.gengrid(OD, dVxD, dVyD, dVzD, NXD, NYD, NZD)
