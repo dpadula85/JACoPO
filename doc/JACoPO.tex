@@ -188,7 +188,7 @@ in the folder containing the JACoPO.py python file. The output of this command i
     --thresh THRESH       Threshold for Transition Density Cubes. (default:
                           1e-05)
     --coup {chgs,den}     Method of Calculation of the Electronic Coupling. If
-                          no method is specified, both method will be used.
+                          no method is specified, both methods will be used.
                           (default: None)
     -o OUTPUT, --output OUTPUT
                           Output File. (default: Coup.out)
@@ -199,11 +199,11 @@ Let's have a quick look at all these options and what they require as arguments.
 
 \begin{itemize}
 
- \item \verb --coup : this option specifies the approach you want to use for the coupling calculation. You can choose between \verb chgs and \verb den for the Monopole--Monopole approximation or the TDC method respectively. The default value is not specified and calculation with both methods will be attempted.
+ \item \verb --coup : this option specifies the approach you want to use for the coupling calculation. You can choose between \verb|chgs| and \verb|den| for the Monopole--Monopole approximation or the TDC method respectively. The default value is not specified and calculation with both methods will be attempted.
  
  \item \verb --chg1,chg2 : these two options want filenames as argument. The file you should give is constituted by 5 columns. The first column contains the atomic symbols, the second to the fourth column contain the $(x, y, z)$ coordinates of the atom (in \AA{}), the last column contains the value of the charge of the atom (in a.u.). As default, these files are not specified. If those files are not found, calculation with the Monopole--Monopole approximation will be skipped.
  
- \item \verb --cub1,cub2 : these two options want filenames as argument. You should specify the transition density cube (Gaussian cube) files needed for the calculation with the TDC method. For general information regarding the structure of these files, have a look at \url{http://www.gaussian.com/g_tech/g_ur/u_cubegen.htm}. Please, make sure the coordinates of the structure specified in the appropriate section of the \verb|.cub| files are expressed in a.u. The default choice for these options are \verb|mon1.cub| and \verb|mon2.cub| respectively.
+ \item \verb --cub1,cub2 : these two options want filenames as argument. You should specify the transition density cube (Gaussian cube) files needed for the calculation with the TDC method. For general information regarding the structure of these files, have a look at \url{http://www.gaussian.com/g_tech/g_ur/u_cubegen.htm}. Please, make sure the coordinates of the structure specified in the appropriate section of the \verb|.cub| files are expressed in atomic units. The default choice for these options are \verb|mon1.cub| and \verb|mon2.cub|, respectively.
 
  \item \verb --thresh : this is a threshold to speed up TDC calculations. Elements of the cubes lower than this threshold will be ignored in the calculation of the coupling. For a more accurate, but slower, result, decrease this parameter.
  
@@ -215,7 +215,7 @@ Before explaining the other options, all related to the TDC method, a small digr
 
 The \verb|--geo1,geo2| options allow doing this. More specifically, you should specify a file that is constituted by 4 columns: the first column contains the atomic symbols, the second to the fourth column contain the $(x, y, z)$ coordinates of the atom (in \AA{}). These files are basically Gaussian input files without the route section, and we assign them a \verb|.inc| extension. If these files are specified, the cube selected with the \verb|--cub1,cub2| option will be transformed in space to match the geometries specified with the \verb|--geo1,geo2| option. If no other option is specified, \jacopo\ will assume that the atom order in the cube files is the same as in the geometry files.
 
-If this is not the case, you can specify the atom correspondence with the \verb|--selcub1,selcub2| and \verb|--selgeo1,selgeo2| options. These options expect a list of atoms or a file, containing the list of atoms as it would be written if you were passing it directly. The rules to specify atom selection are simple and intuitive. Atoms should be separated by commas. For a more compact notation a group of consecutive atoms could be written in compact form (\textit{e.g.} 3, 4, 5, 6 can be specified as 3--6).
+If this is not the case, you can specify the atom correspondence with the \verb|--selcub1,selcub2| and \verb|--selgeo1,selgeo2| options. These options expect a list of atoms or a file, containing the list of atoms as it would be written if you were passing it directly. The rules to specify atom selections are simple and intuitive. Atoms should be separated by commas. For a more compact notation a group of consecutive atoms could be written in compact form (\textit{e.g.} 3, 4, 5, 6 can be specified as 3--6).
 
 Another realistic scenario is that your chromophore is included in a molecule, and the vicinities of the portion you are interested in are not UV active, \textit{i. e.} they do not participate in the electronic excitations on your chromophore. In this case you want to project your cube on the chromophore, which is part of a bigger molecule. You can use the \verb|--selcub1,selcub2| and \verb|--selgeo1,selgeo2| options to specify the atoms you want to use for the transformation.
 
