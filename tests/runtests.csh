@@ -1,0 +1,31 @@
+#!/bin/tcsh
+
+set normal = ( "benzene" "bodipy" "T3" )
+set prj = ( "benzene_prj" "bodipy_prj" "T3_prj" )
+
+foreach test ( $normal )
+
+  cd $test
+  ../../stable/JACoPO.py --chg1 mon1.chg --chg2 mon2.chg --cub1 mon1.cub --cub2 mon2.cub -o test.out
+  cd ..
+
+end
+
+
+foreach test ( $prj )
+
+  cd $test
+
+  if ( $test == "bodipy_prj" ) then
+
+    ../../stable/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --selcub2 cub2sel.txt --geo2 2.inc --selgeo2 geo2sel.txt -o test.out
+
+  else
+  
+    ../../stable/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --geo2 2.inc -o test.out
+
+  endif
+
+  cd ..
+
+end
