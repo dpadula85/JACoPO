@@ -5,7 +5,9 @@
 \usepackage[usetitle=false]{rsc}
 \usepackage{a4wide}
 \usepackage{authblk}
+\usepackage{indentfirst}
 
+% \setlength{\parindent}{0pt}
 \newcommand{\jacopo}{\texttt{JACoPO}}
 \DeclarePairedDelimiter\norm{\lvert}{\rvert}
 
@@ -32,6 +34,9 @@ and with the dipole--dipole approximation (also known as Point Dipole Approximat
 \jacopo\ is a program written in Python and Fortran 90. A working installation of python with numpy and a fortran compiler (such as gfortran) are the only requirements.
 
 \section*{Installation}
+
+\jacopo\ should run on both Windows and Unix platforms. However, since the program has not been tested on a Windows machine,
+all the steps reported below imply that you are using a Unix machine.
 
 To install \jacopo\ on your machine, few simple steps are needed.
 To get a copy of the program, there are a couple of alternatives.
