@@ -6,6 +6,7 @@
 \usepackage{a4wide}
 \usepackage{authblk}
 \usepackage{indentfirst}
+\usepackage{forest}
 
 % \setlength{\parindent}{0pt}
 \newcommand{\jacopo}{\texttt{JACoPO}}
@@ -56,6 +57,38 @@ in the main directory of the repo.
 
 Alternatively, you could browse to the address \url{https://github.com/dpadula85/JACoPO} and download a \verb|.zip| file with the appropriate button.
 
+The directory structure of the program is as follows
+
+\begin{forest}
+  for tree={
+    font=\ttfamily,
+    grow'=0,
+    child anchor=west,
+    parent anchor=south,
+    anchor=west,
+    calign=first,
+    edge path={
+      \noexpand\path [draw, \forestoption{edge}]
+      (!u.south west) +(7.5pt,0) |- node[fill,inner sep=1.25pt] {} (.child anchor)\forestoption{edge label};
+    },
+    before typesetting nodes={
+      if n=1
+        {insert before={[,phantom]}}
+        {}
+    },
+    fit=band,
+    before computing xy={l=15pt},
+  }
+[./
+  [dev]
+  [doc]
+  [stable]
+  [tests]
+]
+\end{forest}
+
+The \verb|dev| and \verb|stable| directories should be the same, apart from experimental features under development in the \verb|dev| folder.
+We recommend you use the executables in the \verb|stable| folder.
 The program is distributed with a pre-compiled version of the needed Fortran 90 module, so you should be already able to run it.
 In case you prefer to recompile the fortran module, run the commands
 
@@ -64,13 +97,23 @@ In case you prefer to recompile the fortran module, run the commands
   $ make 
 \end{verbatim}
 
-Make sure that the python files (\verb|.py| extension) are executable. If they are not, run the command
+Make sure that the python files in this directory (\verb|.py| extension) are executable. If they are not, run the command
 
 \begin{verbatim}
   $ chmod +x *.py
 \end{verbatim}
 
 Once these steps are done, \jacopo\ should be ready to work!
+In case you want to check whether everything is working properly, we suggest you run the tests distributed with the program.
+To do so, go in the \verb|tests| directory andrun the commands
+
+\begin{verbatim}
+  $ make clean
+  $ make &
+\end{verbatim}
+
+The tests can take some time, but hopefully everything is working correctly!
+
 
 \section*{Theory}
 \subsection*{Point Dipole Approximation (PDA)}
@@ -127,14 +170,14 @@ Computationally speaking, the transition density is expressed by an array of fin
 
 where $i$ denotes the set of 3D coordinates of the $i$-th point of the Cube of molecule $D$ and $r_{ij}$ is the distance between the two elements on the two cubes.
 
-Within this approximation, the transition electric dipole moment associated to the Cube can be obtaines as
+Within this approximation, the transition electric dipole moment associated to the Cube can be obtained as
 
 \begin{equation}
  \vec{\mu_a} = \sum_i \rho^a(i) \vec{r_i}
  \label{eq:mu_TDC}
 \end{equation}
 
-thus the two transition electric dipole moments $\mu_a$ and $\mu_b$ can be retrieved by the two Cubes and the coupling can be estimated also according to the PDA.
+thus the two transition electric dipole moments $\mu_a$ and $\mu_b$ can be retrieved from the two Cubes and the coupling can be estimated also according to the PDA.
 
 \section*{Additional Information}
 The data needed to run \jacopo\ are transition charges and transition density cubes. If you don't know how to obtain these data from quantum calculations with your favorite package, we suggest you read the manual of your program, have a look at the Multiwfn package (\url{https://multiwfn.codeplex.com/}) or contact the developers of your program for information.
@@ -365,7 +408,7 @@ At the end of the output file, a short summary of the calculations performed is 
 The calculation time and the results of calculations according to the required methods are summarized in a table.
 
 \section*{Useful Commands}
-If you are not interested in reading the full output from \jacopo\, the most straightforward command that you could use to have a quick look at the results is
+If you are not interested in reading the whole output file, the most straightforward command that you could use to have a quick look at the results is
 
 \begin{verbatim}
   $ tail Coup.out
@@ -380,6 +423,16 @@ If you are not interested in reading the full output from \jacopo\, the most str
    Tr Den           1405.30 
    PDA Dip Den      1578.42  
 \end{verbatim}
+
+If you are interested in extracting directly a number out of the output, you could use the command
+
+\begin{verbatim}
+  $ grep "Tr Den" Coup.out | awk '{print $NF}'
+  1405.30
+\end{verbatim}
+
+Substituting the string to search in the \verb|grep| command gives you access to the result obtained with the method you prefer.
+This last command is useful for incorporation into shell scripts.
 
 \section*{Acknowledgements}
 \jacopo\ is named after Prof. Jacopo Tomasi. We are grateful to our friends and colleagues Dr.~Stefano Caprasecca and Dr.~Ciro Guido for helping us out in finding a name for our program.
