@@ -1,6 +1,6 @@
 .PHONY: test
 test:
-	runtests.csh
+	./runtests.csh
 
 clean:
 	rm -rf */test.out
