@@ -24,17 +24,17 @@
 
 \maketitle
 
-\section*{Presentation}
+\section{Presentation}
 
 \jacopo\ is a program to calculate coulombic electronic couplings between two excited states according to various approaches.
 In particular, it is possible to calculate couplings with the Transition Density Cube method, with the monopole--monopole approximation
 and with the dipole--dipole approximation (also known as Point Dipole Approximation, PDA).
 
-\section*{Requirements}
+\section{Requirements}
 
 \jacopo\ is a program written in Python and Fortran 90. A working installation of python with numpy and a fortran compiler (such as gfortran) are the only requirements.
 
-\section*{Installation}
+\section{Installation}
 
 \jacopo\ should run on both Windows and Unix platforms. However, since the program has not been tested on a Windows machine,
 all the steps reported below imply that you are using a Unix machine.
@@ -89,33 +89,65 @@ The directory structure of the program is as follows
 
 The \verb|dev| and \verb|stable| directories should be the same, apart from experimental features under development in the \verb|dev| folder.
 We recommend you use the executables in the \verb|stable| folder.
-The program is distributed with a pre-compiled version of the needed Fortran 90 module, so you should be already able to run it.
-In case you prefer to recompile the fortran module, run the commands
+Make sure that the python files in this directory (\verb|.py| extension) are executable. If they are not, run the commands
 
 \begin{verbatim}
   $ cd stable
-  $ make 
-\end{verbatim}
-
-Make sure that the python files in this directory (\verb|.py| extension) are executable. If they are not, run the command
-
-\begin{verbatim}
   $ chmod +x *.py
 \end{verbatim}
 
-Once these steps are done, \jacopo\ should be ready to work!
-In case you want to check whether everything is working properly, we suggest you run the tests distributed with the program.
-To do so, go in the \verb|tests| directory andrun the commands
+The program is distributed with a pre-compiled version of the needed Fortran 90 module, so you should be already able to run it.
+If you obtain some error related to this module or in case you prefer to recompile it, run the commands
 
 \begin{verbatim}
   $ make clean
+  $ make 
+\end{verbatim}
+
+in the \verb|stable| directory. If everything worked fine, you can skip the rest of this section, since it deals with troubleshooting in this phase.
+
+In some cases, we experienced problems with some numpy installations that were not respoding correctly to this command.
+If the \verb|make| command gives you the error, modify lines 6 and 7 of the \verb|Makefile| from
+
+\begin{verbatim}
+     f2py  --opt='-O3' -lgomp --f90flags='-fopenmp' -c -m trden trden.f90
+     # ./compile.py 
+\end{verbatim}
+
+to
+
+\begin{verbatim}
+     # f2py  --opt='-O3' -lgomp --f90flags='-fopenmp' -c -m trden trden.f90
+     ./compile.py 
+\end{verbatim}
+
+and rerun
+
+\begin{verbatim}
+  $ make clean
+  $ make 
+\end{verbatim}
+
+Once these steps are done, \jacopo\ should be ready to work!
+
+\section{Running tests}
+
+In case you want to check whether everything is working properly, we suggest you run the tests distributed with the program.
+To do so, go in the \verb|tests| directory and run the command
+
+\begin{verbatim}
   $ make &
 \end{verbatim}
 
-The tests can take some time, but hopefully everything is working correctly!
+The tests can take some time, but hopefully everything is working correctly! The result of the tests is summarized in the file \verb|tests/logfile|, which is written on the fly while tests are running. You can check the progression of the tests in this file and which ones passed or failed by running
 
+\begin{verbatim}
+  $ cat logfile
+\end{verbatim}
 
-\section*{Theory}
+For more details about the tests, feel free to change directory to each test and have a look at the files, also for comparison with the instructions given in section \ref{Options}.
+
+\section{Theory}
 \subsection*{Point Dipole Approximation (PDA)}
 This approximation is the one traditionally used to evaluate the coulombic term of electronic couplings. This description is based on a dipolar interaction \cite{PDA}.  Given two molecules $D$ and $A$, the coulombic coupling between excited state $a$ of molecule $D$ and excited state $b$ of molecule $A$ is given by
 
@@ -179,10 +211,11 @@ Within this approximation, the transition electric dipole moment associated to t
 
 thus the two transition electric dipole moments $\mu_a$ and $\mu_b$ can be retrieved from the two Cubes and the coupling can be estimated also according to the PDA.
 
-\section*{Additional Information}
+\section{Additional Information}
 The data needed to run \jacopo\ are transition charges and transition density cubes. If you don't know how to obtain these data from quantum calculations with your favorite package, we suggest you read the manual of your program, have a look at the Multiwfn package (\url{https://multiwfn.codeplex.com/}) or contact the developers of your program for information.
 
-\section*{Features and Options}
+\section{Features and Options}
+\label{Options}
 A short help including the list of options is available by running the command
 
 \begin{verbatim}
@@ -269,7 +302,7 @@ Another realistic scenario is that your chromophore is included in a molecule, a
 
 Examples of the files to be passed for each option are available in the \verb|tests| folder.
 
-\section*{Output}
+\section{Output}
 Examples of output files from \jacopo\ are in the \verb|tests| folder. The first section of the output is a title and credits section.
 
 \begin{verbatim}
