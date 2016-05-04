@@ -203,6 +203,7 @@ def coup_chgs(struct1, chgs1, struct2, chgs2):
     J. Phys. Chem. B, 2006, 110, 17268.'''
 
     coup = 0
+    factor = 1
     for i in range(len(struct1)):
         for j in range(len(struct2)):
     
@@ -213,8 +214,12 @@ def coup_chgs(struct1, chgs1, struct2, chgs2):
             chg2 = chgs2[j]
     
             d = np.linalg.norm(a1 - a2)
+
+            if d < 4:
+                factor = np.exp(-(d - 4)**2/1.5)
     
-            coup += chg1 * chg2 / d
+            coup += factor * chg1 * chg2 / d
+            factor = 1
     
     return coup * au2wn
 
