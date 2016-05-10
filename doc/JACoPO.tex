@@ -107,27 +107,14 @@ If you obtain some error related to this module or in case you prefer to recompi
 in the \verb|stable| directory. If everything worked fine, you can skip the rest of this section, since it deals with troubleshooting in this phase.
 
 In some cases, we experienced problems with some numpy installations that were not respoding correctly to this command.
-If the \verb|make| command gives you the error, modify lines 6 and 7 of the \verb|Makefile| from
-
-\begin{verbatim}
-     f2py  --opt='-O3' -lgomp --f90flags='-fopenmp' -c -m trden trden.f90
-     # ./compile.py 
-\end{verbatim}
-
-to
-
-\begin{verbatim}
-     # f2py  --opt='-O3' -lgomp --f90flags='-fopenmp' -c -m trden trden.f90
-     ./compile.py 
-\end{verbatim}
-
-and rerun
+If this is your case, try running
 
 \begin{verbatim}
   $ make clean
-  $ make 
+  $ make alternative
 \end{verbatim}
 
+If you keep getting errors, please contact us.
 Once these steps are done, \jacopo\ should be ready to work!
 
 \section{Running tests}
