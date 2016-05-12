@@ -6,6 +6,7 @@ all:
 	bibtex JACoPO.aux &> /dev/null
 	pdflatex JACoPO.tex &> /dev/null
 	pdflatex JACoPO.tex &> /dev/null
+	make clean &> /dev/null
 
 view:
 	xdg-open JACoPO.pdf
