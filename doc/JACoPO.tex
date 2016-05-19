@@ -143,7 +143,12 @@ This approximation is the one traditionally used to evaluate the coulombic term 
  \label{eq:PDA}
 \end{equation}
 
-where $\vec{\mu_a}$ is the transition electric dipole moment for excited state $a$ of molecule $D$ and $r_{DA}$ is the distance between the two application points of the dipoles.
+where $\vec{\mu_a}$ is the transition electric dipole moment for excited state $a$ of molecule $D$ and $r_{DA}$ is the distance between the two application points of the dipoles. Within this approximation, it is possible to define the orientation factor $\kappa$ between the two chromophores as in
+
+\begin{equation}
+ \kappa = \vec{\mu_a}\cdot\vec{\mu_b} - 3(\vec{\mu_a}\cdot \vec{r}_{DA})\cdot(\vec{\mu_b}\cdot\vec{r}_{DA})
+ \label{eq:orifac}
+\end{equation}
 
 This approximation falls off when the distance between the two molecules is comparable to the molecular size or when the molecule has an elongated structure, such as a carothenoid.
 
@@ -166,7 +171,7 @@ Within this approximation, the transition electric dipole moment associated to t
  \label{eq:mu_MMA}
 \end{equation}
 
-thus the two transition electric dipole moments $\mu_a$ and $\mu_b$ can be retrieved by the two sets of charges and the coupling can be estimated also according to the PDA.
+thus the two transition electric dipole moments $\mu_a$ and $\mu_b$ can be retrieved by the two sets of charges and the coupling and the orientation factor can be estimated also according to the PDA.
 
 \subsection*{Transition Density Cube method}
 This method was proposed in 1998 by Krueger \textit{et al.} \cite{Krueger1998}, and resulted in the development of a program for the calculation of electronic coupling according to this method (see \url{http://www.chem.hope.edu/~krieg/TDC/TDC_home.htm}).
@@ -196,7 +201,7 @@ Within this approximation, the transition electric dipole moment associated to t
  \label{eq:mu_TDC}
 \end{equation}
 
-thus the two transition electric dipole moments $\mu_a$ and $\mu_b$ can be retrieved from the two Cubes and the coupling can be estimated also according to the PDA.
+thus the two transition electric dipole moments $\mu_a$ and $\mu_b$ can be retrieved from the two Cubes and the coupling and the orientation factor can be estimated also according to the PDA.
 
 \section{Additional Information}
 The data needed to run \jacopo\ are transition charges and transition density cubes. If you don't know how to obtain these data from quantum calculations with your favorite package, we suggest you read the manual of your program, have a look at the Multiwfn package (\url{https://multiwfn.codeplex.com/}) or contact the developers of your program for information.
@@ -349,6 +354,8 @@ For the Monopole--Monopole approximation, an example is as follows.
          x        y        z            norm
     0.0000   1.6566  -0.0000          1.6566
   
+  Orientation Factor:
+  2.74
   
   Electronic Coupling according to PDA from Dipoles from Transition Charges in cm-1:
   1394.54   
@@ -359,7 +366,7 @@ For the Monopole--Monopole approximation, an example is as follows.
 
 There is a small title section to remind you of the calculation that has been performed, followed by a reference containing the formula used. A recapitulation of the file specified with the \verb|--chg1| option is reported, followed by the result of the calculation of the transition electric dipole moment for the geometry and charges you specified (see Eq.~\ref{eq:mu_MMA}). An analogous section for the option \verb|--chg2| is written.
 
-Finally, two electronic couplings are reported. The first, is the result of the PDA applied on the dipoles calculated (see Eq.~\ref{eq:PDA}). The application points of the dipoles are the centers of mass of the geometries. The second is the coupling calculated with the Monopole--Monopole approximation (see Eq.~\ref{eq:MMA}).
+Finally, the orientation factor (see Eq.~\ref{eq:orifac}) and two electronic couplings are reported. The first, is the result of the PDA applied on the dipoles calculated (see Eq.~\ref{eq:PDA}). The application points of the dipoles are the centers of mass of the geometries. The second is the coupling calculated with the Monopole--Monopole approximation (see Eq.~\ref{eq:MMA}).
 Please, be aware that the charges that you use for your input determine the quality of this calculation.
 
 An example of a complete section for the TDC method is as follows.
@@ -392,6 +399,9 @@ An example of a complete section for the TDC method is as follows.
    -1.2234   1.7318  -1.4028          2.5424
   
   
+  Orientation Factor:
+  5.19
+    
   Electronic Coupling according to PDA from Dipoles from Transition Densities in cm-1:
   595.87    
   

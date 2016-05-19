@@ -239,9 +239,10 @@ def coup_PDA(struct1, atoms1, dip1, struct2, atoms2, dip2):
     dip2mod = np.linalg.norm(dip2)
     udip2 = dip2 / dip2mod
 
-    coup = dip1mod * dip2mod * (np.dot(udip1, udip2) - 3 * (np.dot(udip1, ur) * np.dot(udip2, ur))) / rmod**3 
+    coup = dip1mod * dip2mod * (np.dot(udip1, udip2) - 3 * (np.dot(udip1, ur) * np.dot(udip2, ur))) / rmod**3
+    orifac = dip1mod * dip2mod * (np.dot(udip1, udip2) - 3 * (np.dot(udip1, ur) * np.dot(udip2, ur)))
 
-    return coup * au2wn
+    return coup * au2wn, orifac
 
 
 def kabsch(struct1, struct2):
@@ -441,7 +442,7 @@ if __name__ == '__main__':
             dip2chgs = dipole_chgs(struct2, chgs2)
             dip2chgsmod = np.linalg.norm(dip2chgs)
 
-            coup_PDA_chgs = coup_PDA(struct1, atoms1, dip1chgs, struct2, atoms2, dip2chgs)
+            coup_PDA_chgs, orifac_chgs = coup_PDA(struct1, atoms1, dip1chgs, struct2, atoms2, dip2chgs)
             ChgsDone = True
 
     #
@@ -565,7 +566,7 @@ if __name__ == '__main__':
 
             # Coupling
             coupden = trden.couptrde(TrDenA, gridA, dVA, TrDenD, gridD, dVD, thresh)
-            coup_PDA_den = coup_PDA(structD, atomsD, dip1den, structA, atomsA, dip2den)
+            coup_PDA_den, orifac_den = coup_PDA(structD, atomsD, dip1den, structA, atomsA, dip2den)
             TrDenDone = True
 
     elapsed = (time.time() - start)
@@ -605,6 +606,9 @@ if __name__ == '__main__':
             f.write('%8s %8s %8s %15s\n' % ('x', 'y', 'z', 'norm'))
             f.write('%8.4f %8.4f %8.4f %15.4f\n' % (dip2chgs[0], dip2chgs[1], dip2chgs[2], dip2chgsmod))
             f.write('\n')
+            f.write('\n')
+            f.write('Orientation Factor:\n')
+            f.write('%-10.2f\n' % orifac_chgs)
             f.write('\n')
             f.write('Electronic Coupling according to PDA from Dipoles from Transition Charges in cm-1:\n')
             f.write('%-10.2f\n' % coup_PDA_chgs)
@@ -660,6 +664,9 @@ if __name__ == '__main__':
             f.write('%8s %8s %8s %15s\n' % ('x', 'y', 'z', 'norm'))
             f.write('%8.4f %8.4f %8.4f %15.4f\n' % (dip2den[0], dip2den[1], dip2den[2], dip2denmod))
             f.write('\n')
+            f.write('\n')
+            f.write('Orientation Factor:\n')
+            f.write('%-10.2f\n' % orifac_den)
             f.write('\n')
             f.write('Electronic Coupling according to PDA from Dipoles from Transition Densities in cm-1:\n')
             f.write('%-10.2f\n' % coup_PDA_den)
