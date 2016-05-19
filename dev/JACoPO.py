@@ -240,7 +240,7 @@ def coup_PDA(struct1, atoms1, dip1, struct2, atoms2, dip2):
     udip2 = dip2 / dip2mod
 
     coup = dip1mod * dip2mod * (np.dot(udip1, udip2) - 3 * (np.dot(udip1, ur) * np.dot(udip2, ur))) / rmod**3
-    orifac = dip1mod * dip2mod * (np.dot(udip1, udip2) - 3 * (np.dot(udip1, ur) * np.dot(udip2, ur)))
+    orifac = (np.dot(udip1, udip2) - 3 * (np.dot(udip1, ur) * np.dot(udip2, ur)))
 
     return coup * au2wn, orifac
 

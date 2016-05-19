@@ -51,6 +51,9 @@ Acceptor Electric Transition Dipole Moment from Transition Charges in a.u.:
   0.0000   1.6566  -0.0000          1.6566
 
 
+Orientation Factor:
+1.00      
+
 Electronic Coupling according to PDA from Dipoles from Transition Charges in cm-1:
 1394.54   
 
@@ -75,6 +78,9 @@ Acceptor Electric Transition Dipole Moment from Transition Density in a.u.:
        x        y        z            norm
   0.0000   1.7624  -0.0000          1.7624
 
+
+Orientation Factor:
+1.00      
 
 Electronic Coupling according to PDA from Dipoles from Transition Densities in cm-1:
 1578.41   
