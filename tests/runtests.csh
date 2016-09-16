@@ -7,6 +7,9 @@ set logfile = "$WDir/logfile"
 set failed = "0"
 set passed = "0"
 
+if ( -e $logfile ) then
+    rm $logfile
+endif
 
 foreach test ( $normal )
 
@@ -15,7 +18,7 @@ foreach test ( $normal )
   echo "Running test:  $test" >> $logfile
 
   ../../stable/JACoPO.py --chg1 mon1.chg --chg2 mon2.chg --cub1 mon1.cub --cub2 mon2.cub -o test.out
-  sed -i '/Calculation time/d' test.out
+  sed -i '/Calculation time/d' test.out >& /dev/null
   diff test.out correct.out >& /dev/null
 
   if ( $status != "0" ) then
@@ -41,8 +44,9 @@ foreach test ( $prj )
 
   if ( $test == "bodipy_prj" ) then
 
-    ../../stable/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --selcub2 cub2sel.txt --geo2 2.inc --selgeo2 geo2sel.txt -o test.out
-    sed -i '/Calculation time/d' test.out
+    ../../dev/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --selcub2 cub2sel.txt --geo2 2.inc --selgeo2 geo2sel.txt -o test.out --savecub --nocoup
+    # ../../stable/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --selcub2 cub2sel.txt --geo2 2.inc --selgeo2 geo2sel.txt -o test.out --savecub
+    sed -i '/Calculation time/d' test.out >& /dev/null
     diff test.out correct.out >& /dev/null
 
     if ( $status != "0" ) then
@@ -59,8 +63,9 @@ foreach test ( $prj )
 
   else
   
-    ../../stable/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --geo2 2.inc -o test.out
-    sed -i '/Calculation time/d' test.out
+    ../../dev/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --geo2 2.inc -o test.out --savecub --nocoup
+    # ../../stable/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --geo2 2.inc -o test.out --savecub
+    sed -i '/Calculation time/d' test.out >& /dev/null
     diff test.out correct.out >& /dev/null
 
     if ( $status != "0" ) then

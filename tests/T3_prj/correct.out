@@ -34,10 +34,10 @@ Orientation Factor:
 -0.87     
 
 Electronic Coupling according to PDA from Dipoles from Transition Densities in cm-1:
--4027.32  
+-4027.316836  
 
 Electronic Coupling in cm-1:
--756.22   
+-756.220223   
 
 
 #####################
@@ -47,5 +47,5 @@ Electronic Coupling in cm-1:
 
 # Method          Coupling (cm-1)
 #--------------------------------
- Tr Den           -756.22 
- PDA Dip Den     -4027.32 
+ Tr Den             -756.220223 
+ PDA Dip Den       -4027.316836 
