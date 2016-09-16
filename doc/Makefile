@@ -12,4 +12,4 @@ view:
 	xdg-open JACoPO.pdf
 
 clean: 
-	rm -rf *.out *.log *.aux *.bbl *.backup *.blg rsc*
+	rm -rf *.out *.log *.aux *.bbl *.backup *.blg rsc* *.synctex.gz

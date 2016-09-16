@@ -44,8 +44,7 @@ foreach test ( $prj )
 
   if ( $test == "bodipy_prj" ) then
 
-    ../../dev/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --selcub2 cub2sel.txt --geo2 2.inc --selgeo2 geo2sel.txt -o test.out --savecub --nocoup
-    # ../../stable/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --selcub2 cub2sel.txt --geo2 2.inc --selgeo2 geo2sel.txt -o test.out --savecub
+    ../../stable/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --selcub2 cub2sel.txt --geo2 2.inc --selgeo2 geo2sel.txt -o test.out
     sed -i '/Calculation time/d' test.out >& /dev/null
     diff test.out correct.out >& /dev/null
 
@@ -63,8 +62,7 @@ foreach test ( $prj )
 
   else
   
-    ../../dev/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --geo2 2.inc -o test.out --savecub --nocoup
-    # ../../stable/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --geo2 2.inc -o test.out --savecub
+    ../../stable/JACoPO.py --cub1 temp.cub --geo1 1.inc --cub2 temp.cub --geo2 2.inc -o test.out
     sed -i '/Calculation time/d' test.out >& /dev/null
     diff test.out correct.out >& /dev/null
 

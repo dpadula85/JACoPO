@@ -1,2 +1,4 @@
 dev/*.pyc
+dev/*.so
 stable/*.pyc
+stable/*.so

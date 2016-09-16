@@ -73,10 +73,10 @@ Orientation Factor:
 0.79      
 
 Electronic Coupling according to PDA from Dipoles from Transition Charges in cm-1:
-606.23    
+606.228664    
 
 Electronic Coupling in cm-1:
-466.24    
+466.242154    
 
 
 #####################################
@@ -101,10 +101,10 @@ Orientation Factor:
 0.80      
 
 Electronic Coupling according to PDA from Dipoles from Transition Densities in cm-1:
-606.44    
+606.440326    
 
 Electronic Coupling in cm-1:
-539.26    
+539.257462    
 
 
 #####################
@@ -114,7 +114,7 @@ Electronic Coupling in cm-1:
 
 # Method          Coupling (cm-1)
 #--------------------------------
- Tr Chgs           466.24 
- PDA Dip Chgs      606.23 
- Tr Den            539.26 
- PDA Dip Den       606.44 
+ Tr Chgs             466.242154 
+ PDA Dip Chgs        606.228664 
+ Tr Den              539.257462 
+ PDA Dip Den         606.440326 

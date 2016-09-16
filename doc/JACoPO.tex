@@ -12,12 +12,13 @@
 \newcommand{\jacopo}{\texttt{JACoPO}}
 \DeclarePairedDelimiter\norm{\lvert}{\rvert}
 
-\title{JACoPO \\ \textit{Just Another COupling Program, Obviously}}
+\title{JACoPO \\ \textit{\underline{J}ust \underline{A}nother \underline{Co}upling \underline{P}rogram, \underline{O}bviously}}
 
 \author[1]{Daniele Padula\thanks{\href{mailto:dpadula85@yahoo.it}{dpadula85@yahoo.it}}}
-\author[1]{Marco Campetella\thanks{\href{mailto:marco.campetella82@gmail.com}{marco.campetella82@gmail.com}}}
+\author[2]{Marco Campetella}%\thanks{\href{mailto:marco.campetella82@gmail.com}{marco.campetella82@gmail.com}}}
 
-\affil[1]{\textit{Dipartimento di Chimica e Chimica Industriale, Universit\`a di Pisa, via G.~Moruzzi 13, 56124 Pisa, Italy}}
+\affil[1]{\textit{Department of Chemistry, University of Warwick, Gibbet Hill Rd, CV47AL Coventry, U.K.}}
+\affil[2]{\textit{Dipartimento di Chimica e Chimica Industriale, Universit\`a di Pisa, via G.~Moruzzi 13, 56124 Pisa, Italy}}
 %\affil[2]{Department of Mechanical Engineering, \LaTeX\ University}
 
 \begin{document}
@@ -96,15 +97,13 @@ Make sure that the python files in this directory (\verb|.py| extension) are exe
   $ chmod +x *.py
 \end{verbatim}
 
-The program is distributed with a pre-compiled version of the needed Fortran 90 module, so you should be already able to run it.
-If you obtain some error related to this module or in case you prefer to recompile it, run the commands
+The program contains a Fortran90 module to be compiled. To do this, run the following command in the \verb|stable| folder.
 
 \begin{verbatim}
-  $ make clean
   $ make 
 \end{verbatim}
 
-in the \verb|stable| directory. If everything worked fine, you can skip the rest of this section, since it deals with troubleshooting in this phase.
+If everything worked fine, you can skip the rest of this section, since it deals with troubleshooting in this phase.
 
 In some cases, we experienced problems with some numpy installations that were not respoding correctly to this command.
 If this is your case, try running
@@ -218,53 +217,56 @@ in the folder containing the JACoPO.py python file. The output of this command i
 
 \begin{verbatim}
   $ ./JACoPO.py -h
-  usage: JACoPO.py [-h] [--chg1 CHG1] [--chg2 CHG2] [--cub1 CUB1]
-                   [--selcub1 SELCUB1 [SELCUB1 ...]] [--geo1 GEO1]
-                   [--selgeo1 SELGEO1 [SELGEO1 ...]] [--cub2 CUB2]
-                   [--selcub2 SELCUB2 [SELCUB2 ...]] [--geo2 GEO2]
-                   [--selgeo2 SELGEO2 [SELGEO2 ...]] [--thresh THRESH]
-                   [--coup {chgs,den}] [-o OUTPUT]
-  
-  Calculates Electronic Coupling from Transition Charges and Densities.
-  
-  optional arguments:
-    -h, --help            show this help message and exit
-    --chg1 CHG1           File with coordinates and charges for monomer 1.
-                          (default: None)
-    --chg2 CHG2           File with coordinates and charges for monomer 2.
-                          (default: None)
-    --cub1 CUB1           Transition Density Cube for monomer 1. (default:
-                          mon1.cub)
-    --selcub1 SELCUB1 [SELCUB1 ...]
-                          Atom Selection for Transition Density Cube for monomer
-                          1. This can either be a list or a file. (default:
-                          None)
-    --geo1 GEO1           Geometry on which the Transition Density Cube of
-                          monomer 1 will be projected. (Units: Angstrom)
-                          (default: None)
-    --selgeo1 SELGEO1 [SELGEO1 ...]
-                          Atom Selection for geometry 1. This can either be a
-                          list or a file, which should contain the list.
-                          (default: None)
-    --cub2 CUB2           Transition Density Cube for monomer 2. (default:
-                          mon2.cub)
-    --selcub2 SELCUB2 [SELCUB2 ...]
-                          Atom Selection for Transition Density Cube for monomer
-                          2. This can either be a list or a file, which should
-                          contain the list. (default: None)
-    --geo2 GEO2           Geometry on which the Transition Density Cube of
-                          monomer 2 will be projected. (Units: Angstrom)
-                          (default: None)
-    --selgeo2 SELGEO2 [SELGEO2 ...]
-                          Atom Selection for geometry 2. This can either be a
-                          list or a file. (default: None)
-    --thresh THRESH       Threshold for Transition Density Cubes. (default:
-                          1e-05)
-    --coup {chgs,den}     Method of Calculation of the Electronic Coupling. If
-                          no method is specified, both methods will be used.
-                          (default: None)
-    -o OUTPUT, --output OUTPUT
-                          Output File. (default: Coup.out)
+    usage: JACoPO.py [-h] [--chg1 CHG1] [--chg2 CHG2] [--cub1 CUB1]
+                     [--selcub1 SELCUB1 [SELCUB1 ...]] [--geo1 GEO1]
+                     [--selgeo1 SELGEO1 [SELGEO1 ...]] [--cub2 CUB2]
+                     [--selcub2 SELCUB2 [SELCUB2 ...]] [--savecub] [--geo2 GEO2]
+                     [--selgeo2 SELGEO2 [SELGEO2 ...]] [--thresh THRESH]
+                     [--coup {chgs,den}] [--nocoup] [-o OUTPUT]
+    
+    Calculates Electronic Coupling from Transition Charges and Densities.
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      --chg1 CHG1           File with coordinates and charges for monomer 1.
+                            (default: None)
+      --chg2 CHG2           File with coordinates and charges for monomer 2.
+                            (default: None)
+      --cub1 CUB1           Transition Density Cube for monomer 1. (default:
+                            mon1.cub)
+      --selcub1 SELCUB1 [SELCUB1 ...]
+                            Atom Selection for Transition Density Cube for monomer
+                            1. This can either be a list or a file. (default:
+                            None)
+      --geo1 GEO1           Geometry on which the Transition Density Cube of
+                            monomer 1 will be projected. (Units: Angstrom)
+                            (default: None)
+      --selgeo1 SELGEO1 [SELGEO1 ...]
+                            Atom Selection for geometry 1. This can either be a
+                            list or a file, which should contain the list.
+                            (default: None)
+      --cub2 CUB2           Transition Density Cube for monomer 2. (default:
+                            mon2.cub)
+      --selcub2 SELCUB2 [SELCUB2 ...]
+                            Atom Selection for Transition Density Cube for monomer
+                            2. This can either be a list or a file, which should
+                            contain the list. (default: None)
+      --savecub             Save Transition Density Cubes after transformation in
+                            space. (default: False)
+      --geo2 GEO2           Geometry on which the Transition Density Cube of
+                            monomer 2 will be projected. (Units: Angstrom)
+                            (default: None)
+      --selgeo2 SELGEO2 [SELGEO2 ...]
+                            Atom Selection for geometry 2. This can either be a
+                            list or a file. (default: None)
+      --thresh THRESH       Threshold for Transition Density Cubes. (default:
+                            1e-05)
+      --coup {chgs,den}     Method of Calculation of the Electronic Coupling. If
+                            no method is specified, both methods will be used.
+                            (default: None)
+      --nocoup              Skip coupling calculation. (default: False)
+      -o OUTPUT, --output OUTPUT
+                            Output File. (default: Coup.out)
 
 \end{verbatim}
 
@@ -286,9 +288,12 @@ Let's have a quick look at all these options and what they require as arguments.
 
 Before explaining the other options, all related to the TDC method, a small digression is needed. A situation that could occur is that you want to evaluate the coupling for two equivalent molecules in different positions in space. The value of the transition density is the same for these two molecules, what changes is just its position. What you need is a \textit{reference} cube file that you want to project on the real geometry of the molecule in space.
 
-The \verb|--geo1,geo2| options allow doing this. More specifically, you should specify a file that is constituted by 4 columns: the first column contains the atomic symbols, the second to the fourth column contain the $(x, y, z)$ coordinates of the atom (in \AA{}). These files are basically Gaussian input files without the route section, and we assign them a \verb|.inc| extension. If these files are specified, the cube selected with the \verb|--cub1,cub2| option will be transformed in space to match the geometries specified with the \verb|--geo1,geo2| option. If no other option is specified, \jacopo\ will assume that the atom order in the cube files is the same as in the geometry files.
+The \verb|--geo1,geo2| options allow doing this. More specifically, you should specify a file that is constituted by 4 columns: the first column contains the atomic symbols, the second to the fourth column contain the $(x, y, z)$ coordinates of the atom (in \AA{}). These files are basically Gaussian input files without the route section, and we assign them a \verb|.inc| extension. If these files are specified, the cube selected with the \verb|--cub1,cub2| option will be transformed in space to match the geometries specified with the \verb|--geo1,geo2| option. If no other option is specified, \jacopo\ will assume that the atom order in the cube files is the same as in the geometry files. The option \verb|--savecub| simply allows to save the cube files after the geometrical transformation occurred.\footnotemark In case you want to skip the coupling calculation to only obtain the transformed cube files, you can do so activating the option \verb|--nocoup|.
 
-If this is not the case, you can specify the atom correspondence with the \verb|--selcub1,selcub2| and \verb|--selgeo1,selgeo2| options. These options expect a list of atoms or a file, containing the list of atoms as it would be written if you were passing it directly. The rules to specify atom selections are simple and intuitive. Atoms should be separated by commas. For a more compact notation a group of consecutive atoms could be written in compact form (\textit{e.g.} 3, 4, 5, 6 can be specified as 3--6).
+% Footnote on cube file problems
+\footnotetext{Concerning cube files generated by \jacopo\ we experienced problems in visualizing them with software such as VMD, because the plugin that allows VMD to read cube files alignes the axes of the grid to the main axes. On the contrary, we obtained a correct visualization of the transformed cube file with GaussView.}
+
+If the atom order in the cube and the geometry files is not the same, you can specify the atom correspondence with the \verb|--selcub1,selcub2| and \verb|--selgeo1,selgeo2| options. These options expect a list of atoms or a file, containing the list of atoms as it would be written if you were passing it directly. The rules to specify atom selections are simple and intuitive. Atoms should be separated by commas. For a more compact notation a group of consecutive atoms could be written in compact form (\textit{e.g.} 3, 4, 5, 6 can be specified as 3--6).
 
 Another realistic scenario is that your chromophore is included in a molecule, and the vicinities of the portion you are interested in are not UV active, \textit{i. e.} they do not participate in the electronic excitations on your chromophore. In this case you want to project your cube on the chromophore, which is part of a bigger molecule. You can use the \verb|--selcub1,selcub2| and \verb|--selgeo1,selgeo2| options to specify the atoms you want to use for the transformation.
 
