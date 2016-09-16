@@ -596,15 +596,15 @@ if __name__ == '__main__':
                     transfcub = CUBE(cub2file)
 
                     new_x = np.atleast_2d(transfcub.X)
-                    new_x = np.dot(new_x, MD)
+                    new_x = np.dot(new_x, MA)
                     transfcub.X = new_x.reshape(3).tolist()
 
                     new_y = np.atleast_2d(transfcub.Y)
-                    new_y = np.dot(new_y, MD)
+                    new_y = np.dot(new_y, MA)
                     transfcub.Y = new_y.reshape(3).tolist()
 
                     new_z = np.atleast_2d(transfcub.Z)
-                    new_z = np.dot(new_z, MD)
+                    new_z = np.dot(new_z, MA)
                     transfcub.Z = new_z.reshape(3).tolist()
 
                     new_origin = np.atleast_2d(transfcub.origin)
