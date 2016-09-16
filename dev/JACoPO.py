@@ -530,35 +530,35 @@ if __name__ == '__main__':
                 gridD = np.dot(gridD, MD)
                 gridD = gridD + T2D
 
-                # if args.savecub:
+                if args.savecub:
 
-                #     transfcub = CUBE(cub1file)
+                    transfcub = CUBE(cub1file)
 
-                #     new_x = np.atleast_2d(transfcub.X)
-                #     new_x = np.dot(new_x, MD)
-                #     transfcub.X = new_x.reshape(3).tolist()
+                    new_x = np.atleast_2d(transfcub.X)
+                    new_x = np.dot(new_x, MD)
+                    transfcub.X = new_x.reshape(3).tolist()
 
-                #     new_y = np.atleast_2d(transfcub.Y)
-                #     new_y = np.dot(new_y, MD)
-                #     transfcub.Y = new_y.reshape(3).tolist()
+                    new_y = np.atleast_2d(transfcub.Y)
+                    new_y = np.dot(new_y, MD)
+                    transfcub.Y = new_y.reshape(3).tolist()
 
-                #     new_z = np.atleast_2d(transfcub.Z)
-                #     new_z = np.dot(new_z, MD)
-                #     transfcub.Z = new_z.reshape(3).tolist()
+                    new_z = np.atleast_2d(transfcub.Z)
+                    new_z = np.dot(new_z, MD)
+                    transfcub.Z = new_z.reshape(3).tolist()
 
-                #     new_origin = np.atleast_2d(transfcub.origin)
-                #     new_origin = new_origin - T1D
-                #     new_origin = np.dot(new_origin, MD)
-                #     new_origin = new_origin + T2D
-                #     transfcub.origin = new_origin.reshape(3).tolist()
+                    new_origin = np.atleast_2d(transfcub.origin)
+                    new_origin = new_origin - T1D
+                    new_origin = np.dot(new_origin, MD)
+                    new_origin = new_origin + T2D
+                    transfcub.origin = new_origin.reshape(3).tolist()
 
-                #     for i, atom in enumerate(transfcub.atoms):
-                #         atom[1] = structD[i,0]
-                #         atom[2] = structD[i,1]
-                #         atom[3] = structD[i,2]
+                    for i, atom in enumerate(transfcub.atoms):
+                        atom[1] = structD[i,0]
+                        atom[2] = structD[i,1]
+                        atom[3] = structD[i,2]
 
-                #     with open("transf1.cub", "w") as f:
-                #         transfcub.dump(f)
+                    with open("transf1.cub", "w") as f:
+                        transfcub.dump(f)
 
             if geo2:
 
@@ -591,22 +591,35 @@ if __name__ == '__main__':
                 gridA = np.dot(gridA, MA)
                 gridA = gridA + T2A
 
-                # if args.savecub:
+                if args.savecub:
 
-                #     transfcub = CUBE(cub2file)
-                #     new_origin = np.atleast_2d(transfcub.origin)
-                #     new_origin = new_origin - T1A
-                #     new_origin = np.dot(new_origin, MA)
-                #     new_origin = new_origin + T2A
-                #     transfcub.origin = new_origin.reshape(3).tolist()
-                #     
-                #     for i, atom in enumerate(transfcub.atoms):
-                #         atom[1] = structA[i,0]
-                #         atom[2] = structA[i,1]
-                #         atom[3] = structA[i,2]
+                    transfcub = CUBE(cub2file)
 
-                #     with open("transf2.cub", "w") as f:
-                #         transfcub.dump(f)
+                    new_x = np.atleast_2d(transfcub.X)
+                    new_x = np.dot(new_x, MD)
+                    transfcub.X = new_x.reshape(3).tolist()
+
+                    new_y = np.atleast_2d(transfcub.Y)
+                    new_y = np.dot(new_y, MD)
+                    transfcub.Y = new_y.reshape(3).tolist()
+
+                    new_z = np.atleast_2d(transfcub.Z)
+                    new_z = np.dot(new_z, MD)
+                    transfcub.Z = new_z.reshape(3).tolist()
+
+                    new_origin = np.atleast_2d(transfcub.origin)
+                    new_origin = new_origin - T1A
+                    new_origin = np.dot(new_origin, MA)
+                    new_origin = new_origin + T2A
+                    transfcub.origin = new_origin.reshape(3).tolist()
+                    
+                    for i, atom in enumerate(transfcub.atoms):
+                        atom[1] = structA[i,0]
+                        atom[2] = structA[i,1]
+                        atom[3] = structA[i,2]
+
+                    with open("transf2.cub", "w") as f:
+                        transfcub.dump(f)
 
 
             if not args.nocoup:
