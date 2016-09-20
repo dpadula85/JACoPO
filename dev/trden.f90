@@ -64,7 +64,7 @@ Subroutine couptrde(trdena,grida,dva,trdend,gridd,dvd,thresh,na,nd,couptd)
 	REAL(8), DIMENSION(nd,3), intent(in) :: gridd
 ! Internal and output Variables
     REAL(8), DIMENSION(3) :: r12
-    REAL(8) :: autown,r
+    REAL(8) :: autown,r,couptd_local,width
 	INTEGER :: i,j,OMP_GET_NUM_THREADS
     REAL(8), intent(out) :: couptd
 
@@ -75,25 +75,27 @@ Subroutine couptrde(trdena,grida,dva,trdend,gridd,dvd,thresh,na,nd,couptd)
 couptd = 0.
 autown = 2.194746d5
 
-!$omp parallel do &
-!$omp default(shared) &
-!$omp private(i,j,r12,r)
+width = 1. / dsqrt (2*(dva**(2.0/3.0) + dvd**(2.0/3.0)) )
+!$omp parallel private(i,j,r12,r,couptd_local)
+couptd_local = 0.
+!$omp do
 do i=1,na
     if (abs(trdena(i)) < thresh) cycle
     do j=1,nd
 
         if (abs(trdend(j)) < thresh) cycle
         r12=(grida(i,:)-gridd(j,:))
-        r=dsqrt(r12(1)**2+r12(2)**2+r12(3)**2)
+        r=dsqrt(r12(1)**2.0+r12(2)**2.0+r12(3)**2.0)
 
-        !$omp critical
-        couptd=couptd+trdena(i)*trdend(j)/r
-        !$omp end critical 
+        couptd_local=couptd_local+trdena(i)*trdend(j)/r * erf(width*r)
 
     end do
 end do
-
-!$omp end parallel do
+!$omp end do
+!$omp critical
+couptd=couptd+couptd_local
+!$omp end critical
+!$omp end parallel
 couptd=couptd*dva*dvd*autown
 
 end Subroutine couptrde
