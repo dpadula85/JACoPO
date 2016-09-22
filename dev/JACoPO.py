@@ -47,6 +47,7 @@ def options():
     parser.add_argument('--chg2', default=None, type=str, help='''File with coordinates and charges for monomer 2.''')
 
     parser.add_argument('--cub1', default='mon1.cub', type=str, help='''Transition Density Cube for monomer 1.''')
+    parser.add_argument('--fac1', default=1.0, type=float, help='''Scaling factor for Transition Density Cube of monomer 1.''')
     parser.add_argument('--selcub1', default=None, nargs='+', type=str,
             help='''Atom Selection for Transition Density Cube for monomer 1. This can either be a list or a file.''')
 
@@ -56,6 +57,7 @@ def options():
             help='''Atom Selection for geometry 1. This can either be a list or a file, which should contain the list.''')
 
     parser.add_argument('--cub2', default='mon2.cub', type=str, help='''Transition Density Cube for monomer 2.''')
+    parser.add_argument('--fac2', default=1.0, type=float, help='''Scaling factor for Transition Density Cube of monomer 2.''')
     parser.add_argument('--selcub2', default=None, nargs='+', type=str,
             help='''Atom Selection for Transition Density Cube for monomer 2. This can either be a list or a file, which should contain the list.''')
 
@@ -464,6 +466,8 @@ if __name__ == '__main__':
         geo2 = args.geo2
         selgeo1 = args.selgeo1
         selgeo2 = args.selgeo2
+        fac1 = args.fac1
+        fac2 = args.fac2
 
         if cub1file and cub2file:
 
@@ -486,10 +490,13 @@ if __name__ == '__main__':
             NA = NXA * NYA * NZA
 
             # Reshape TrDen 3D array to 1D array and rescale it to have its integral zero
+            # Also scale according to user-defined scaling factor
             TrDenD = TrDenD.reshape(ND)
-            TrDenA = TrDenA.reshape(NA)
             TrDenD -= sum(TrDenD) / len(TrDenD)
+            TrDenD *= fac1
+            TrDenA = TrDenA.reshape(NA)
             TrDenA -= sum(TrDenA) / len(TrDenA)
+            TrDenA *= fac2
 
             # Generate 4D array of grid points and reshape it to a 2D array
             gridD = trden.gengrid(OD, dVxD, dVyD, dVzD, NXD, NYD, NZD)
