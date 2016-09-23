@@ -191,7 +191,7 @@ Computationally speaking, the transition density is expressed by an array of fin
  \label{eq:TDC1}
 \end{equation}
 
-where $i$ denotes the set of 3D coordinates of the $i$-th point of the Cube of molecule $D$ and $r_{ij}$ is the distance between the two elements on the two cubes.
+where $i$ denotes the set of 3D coordinates of the $i$-th point of the Cube of molecule $D$ and $r_{ij}$ is the distance between the two elements on the two cubes. To avoid discontinuous behaviour at low distances between two volume elements, we introduced a Gaussian distribution of charge in each volumen element, according to the literature \cite{Sega2014}.
 
 Within this approximation, the transition electric dipole moment associated to the Cube can be obtained as
 
@@ -217,56 +217,60 @@ in the folder containing the JACoPO.py python file. The output of this command i
 
 \begin{verbatim}
   $ ./JACoPO.py -h
-    usage: JACoPO.py [-h] [--chg1 CHG1] [--chg2 CHG2] [--cub1 CUB1]
-                     [--selcub1 SELCUB1 [SELCUB1 ...]] [--geo1 GEO1]
-                     [--selgeo1 SELGEO1 [SELGEO1 ...]] [--cub2 CUB2]
-                     [--selcub2 SELCUB2 [SELCUB2 ...]] [--savecub] [--geo2 GEO2]
-                     [--selgeo2 SELGEO2 [SELGEO2 ...]] [--thresh THRESH]
-                     [--coup {chgs,den}] [--nocoup] [-o OUTPUT]
-    
-    Calculates Electronic Coupling from Transition Charges and Densities.
-    
-    optional arguments:
-      -h, --help            show this help message and exit
-      --chg1 CHG1           File with coordinates and charges for monomer 1.
-                            (default: None)
-      --chg2 CHG2           File with coordinates and charges for monomer 2.
-                            (default: None)
-      --cub1 CUB1           Transition Density Cube for monomer 1. (default:
-                            mon1.cub)
-      --selcub1 SELCUB1 [SELCUB1 ...]
-                            Atom Selection for Transition Density Cube for monomer
-                            1. This can either be a list or a file. (default:
-                            None)
-      --geo1 GEO1           Geometry on which the Transition Density Cube of
-                            monomer 1 will be projected. (Units: Angstrom)
-                            (default: None)
-      --selgeo1 SELGEO1 [SELGEO1 ...]
-                            Atom Selection for geometry 1. This can either be a
-                            list or a file, which should contain the list.
-                            (default: None)
-      --cub2 CUB2           Transition Density Cube for monomer 2. (default:
-                            mon2.cub)
-      --selcub2 SELCUB2 [SELCUB2 ...]
-                            Atom Selection for Transition Density Cube for monomer
-                            2. This can either be a list or a file, which should
-                            contain the list. (default: None)
-      --savecub             Save Transition Density Cubes after transformation in
-                            space. (default: False)
-      --geo2 GEO2           Geometry on which the Transition Density Cube of
-                            monomer 2 will be projected. (Units: Angstrom)
-                            (default: None)
-      --selgeo2 SELGEO2 [SELGEO2 ...]
-                            Atom Selection for geometry 2. This can either be a
-                            list or a file. (default: None)
-      --thresh THRESH       Threshold for Transition Density Cubes. (default:
-                            1e-05)
-      --coup {chgs,den}     Method of Calculation of the Electronic Coupling. If
-                            no method is specified, both methods will be used.
-                            (default: None)
-      --nocoup              Skip coupling calculation. (default: False)
-      -o OUTPUT, --output OUTPUT
-                            Output File. (default: Coup.out)
+usage: JACoPO.py [-h] [--chg1 CHG1] [--chg2 CHG2] [--cub1 CUB1] [--fac1 FAC1]
+                 [--selcub1 SELCUB1 [SELCUB1 ...]] [--geo1 GEO1]
+                 [--selgeo1 SELGEO1 [SELGEO1 ...]] [--cub2 CUB2] [--fac2 FAC2]
+                 [--selcub2 SELCUB2 [SELCUB2 ...]] [--savecub] [--geo2 GEO2]
+                 [--selgeo2 SELGEO2 [SELGEO2 ...]] [--thresh THRESH]
+                 [--coup {chgs,den}] [--nocoup] [-o OUTPUT]
+
+Calculates Electronic Coupling from Transition Charges and Densities.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --chg1 CHG1           File with coordinates and charges for monomer 1.
+                        (default: None)
+  --chg2 CHG2           File with coordinates and charges for monomer 2.
+                        (default: None)
+  --cub1 CUB1           Transition Density Cube for monomer 1. (default:
+                        mon1.cub)
+  --fac1 FAC1           Scaling factor for Transition Density Cube of monomer
+                        1. (default: 1.0)
+  --selcub1 SELCUB1 [SELCUB1 ...]
+                        Atom Selection for Transition Density Cube for monomer
+                        1. This can either be a list or a file. (default:
+                        None)
+  --geo1 GEO1           Geometry on which the Transition Density Cube of
+                        monomer 1 will be projected. (Units: Angstrom)
+                        (default: None)
+  --selgeo1 SELGEO1 [SELGEO1 ...]
+                        Atom Selection for geometry 1. This can either be a
+                        list or a file, which should contain the list.
+                        (default: None)
+  --cub2 CUB2           Transition Density Cube for monomer 2. (default:
+                        mon2.cub)
+  --fac2 FAC2           Scaling factor for Transition Density Cube of monomer
+                        2. (default: 1.0)
+  --selcub2 SELCUB2 [SELCUB2 ...]
+                        Atom Selection for Transition Density Cube for monomer
+                        2. This can either be a list or a file, which should
+                        contain the list. (default: None)
+  --savecub             Save Transition Density Cubes after transformation in
+                        space. (default: False)
+  --geo2 GEO2           Geometry on which the Transition Density Cube of
+                        monomer 2 will be projected. (Units: Angstrom)
+                        (default: None)
+  --selgeo2 SELGEO2 [SELGEO2 ...]
+                        Atom Selection for geometry 2. This can either be a
+                        list or a file. (default: None)
+  --thresh THRESH       Threshold for Transition Density Cubes. (default:
+                        1e-05)
+  --coup {chgs,den}     Method of Calculation of the Electronic Coupling. If
+                        no method is specified, both methods will be used.
+                        (default: None)
+  --nocoup              Skip coupling calculation. (default: False)
+  -o OUTPUT, --output OUTPUT
+                        Output File. (default: Coup.out)
 
 \end{verbatim}
 
@@ -280,6 +284,11 @@ Let's have a quick look at all these options and what they require as arguments.
  
  \item \verb --cub1,cub2 : these two options want filenames as argument. You should specify the transition density cube (Gaussian cube) files needed for the calculation with the TDC method. For general information regarding the structure of these files, have a look at \url{http://www.gaussian.com/g_tech/g_ur/u_cubegen.htm}. Please, make sure the coordinates of the structure specified in the appropriate section of the \verb|.cub| files are expressed in atomic units. The default choice for these options are \verb|mon1.cub| and \verb|mon2.cub|, respectively.
 
+ \item \verb --fac1,fac2 : these two options allow to scale the Transition Densitity Cubes in input by some factor. This can be used to achieve exact correspondence between the transition dipole moment calculated from a cube and the one from \textit{ab initio} simulations.\footnotemark
+
+ % Footnote on cube file problems
+ \footnotetext{This factor can also be used to correct possible problems with cubes obtained from some QM software. For example, we found out that cubes obtained from NWChem should be scaled by a factor $\sqrt{2}$ to reproduce the TDDFT transition dipole moment.}
+
  \item \verb --thresh : this is a threshold to speed up TDC calculations. Elements of the cubes lower than this threshold will be ignored in the calculation of the coupling. For a more accurate, but slower, result, decrease this parameter.
  
  \item \verb -o,--output : this is the name of the logfile \jacopo\ will write. The default is \verb|Coup.out|.
@@ -291,7 +300,7 @@ Before explaining the other options, all related to the TDC method, a small digr
 The \verb|--geo1,geo2| options allow doing this. More specifically, you should specify a file that is constituted by 4 columns: the first column contains the atomic symbols, the second to the fourth column contain the $(x, y, z)$ coordinates of the atom (in \AA{}). These files are basically Gaussian input files without the route section, and we assign them a \verb|.inc| extension. If these files are specified, the cube selected with the \verb|--cub1,cub2| option will be transformed in space to match the geometries specified with the \verb|--geo1,geo2| option. If no other option is specified, \jacopo\ will assume that the atom order in the cube files is the same as in the geometry files. The option \verb|--savecub| simply allows to save the cube files after the geometrical transformation occurred.\footnotemark In case you want to skip the coupling calculation to only obtain the transformed cube files, you can do so activating the option \verb|--nocoup|.
 
 % Footnote on cube file problems
-\footnotetext{Concerning cube files generated by \jacopo\ we experienced problems in visualizing them with software such as VMD, because the plugin that allows VMD to read cube files alignes the axes of the grid to the main axes. On the contrary, we obtained a correct visualization of the transformed cube file with GaussView.}
+\footnotetext{Concerning cube files generated by \jacopo\ we experienced problems in visualizing them with software such as VMD, because the plugin that allows VMD to read cube files alignes the axes of the grid to the main axes. On the contrary, we obtained a correct visualization of the transformed cube file with GaussView or UCSF Chimera.}
 
 If the atom order in the cube and the geometry files is not the same, you can specify the atom correspondence with the \verb|--selcub1,selcub2| and \verb|--selgeo1,selgeo2| options. These options expect a list of atoms or a file, containing the list of atoms as it would be written if you were passing it directly. The rules to specify atom selections are simple and intuitive. Atoms should be separated by commas. For a more compact notation a group of consecutive atoms could be written in compact form (\textit{e.g.} 3, 4, 5, 6 can be specified as 3--6).
 
@@ -470,7 +479,7 @@ Substituting the string to search in the \verb|grep| command gives you access to
 This last command is useful for incorporation into shell scripts.
 
 \section*{Acknowledgements}
-\jacopo\ is named after Prof. Jacopo Tomasi. We are grateful to our friends and colleagues Dr.~Stefano Caprasecca and Dr.~Ciro Guido for helping us out in finding a name for our program.
+\jacopo\ is named after Prof. Jacopo Tomasi. We are grateful to our friends and colleagues Dr.~Stefano Caprasecca and Dr.~Ciro Guido for helping us out in finding a name for our program. D. P. is grateful to Rocco Fornari (University of Warwick) for helpful suggestions concerning the fortran module of this code.
 
 \bibliographystyle{rsc}
 \bibliography{refs}
