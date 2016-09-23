@@ -27,9 +27,9 @@ Subroutine diptrde(trden,grid,dv,n,mu)
     IMPLICIT None
 ! Input Variables
     INTEGER, intent(in) :: n
-	REAL(8), intent(in) :: dv
-	REAL(8), DIMENSION(n), intent(in) :: trden
-	REAL(8), DIMENSION(n,3), intent(in) :: grid
+    REAL(8), intent(in) :: dv
+    REAL(8), DIMENSION(n), intent(in) :: trden
+    REAL(8), DIMENSION(n,3), intent(in) :: grid
 ! Internal and output Variables
     INTEGER :: i,OMP_GET_NUM_THREADS
     REAL(8) :: mux,muy,muz
@@ -57,11 +57,11 @@ Subroutine couptrde(trdena,grida,dva,trdend,gridd,dvd,thresh,na,nd,couptd)
     IMPLICIT None
 ! Input Variables
     INTEGER, intent(in) :: na,nd
-	REAL(8), intent(in) :: dva,dvd,thresh
-	REAL(8), DIMENSION(na), intent(in) :: trdena
-	REAL(8), DIMENSION(na,3), intent(in) :: grida
-	REAL(8), DIMENSION(nd), intent(in) :: trdend
-	REAL(8), DIMENSION(nd,3), intent(in) :: gridd
+    REAL(8), intent(in) :: dva,dvd,thresh
+    REAL(8), DIMENSION(na), intent(in) :: trdena
+    REAL(8), DIMENSION(na,3), intent(in) :: grida
+    REAL(8), DIMENSION(nd), intent(in) :: trdend
+    REAL(8), DIMENSION(nd,3), intent(in) :: gridd
 ! Internal and output Variables
     REAL(8), DIMENSION(3) :: r12
     REAL(8) :: autown,r,couptd_local,width
