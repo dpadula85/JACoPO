@@ -3,8 +3,8 @@ Subroutine gengrid(origin,dvx,dvy,dvz,nx,ny,nz,grid)
     IMPLICIT None
 ! Input Variables
     INTEGER, intent(in) :: nx,ny,nz
-	REAL(8), intent(in) :: dvx,dvy,dvz
-	REAL(8), DIMENSION(3), intent(in) :: origin
+    REAL(8), intent(in) :: dvx,dvy,dvz
+    REAL(8), DIMENSION(3), intent(in) :: origin
 ! Internal and output Variables
     INTEGER :: ix,iy,iz,nthrd,OMP_GET_NUM_THREADS
     REAL(8), DIMENSION(nx,ny,nz,3), intent(out) :: grid
