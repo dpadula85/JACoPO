@@ -68,6 +68,12 @@ def options():
     parser.add_argument('--selgeo2', default=None, nargs='+', type=str,
             help='''Atom Selection for geometry 2. This can either be a list or a file.''')
 
+    parser.add_argument('--dip1', default=None, type=str,
+            help='''Dipole file for monomer 1.''')
+
+    parser.add_argument('--dip2', default=None, type=str,
+            help='''Dipole file for monomer 2.''')
+
     parser.add_argument('--thresh', default=1e-5, type=float, help='''Threshold for Transition Density Cubes.''')
 
     parser.add_argument('--coup', default=None, type=str, choices=['chgs', 'den'],
@@ -413,6 +419,17 @@ if __name__ == '__main__':
     args = options()
     calctype = args.coup
     outfile = args.output
+    cub1file = args.cub1
+    cub2file = args.cub2
+    thresh = args.thresh
+    selcub1 = args.selcub1
+    selcub2 = args.selcub2
+    geo1 = args.geo1
+    geo2 = args.geo2
+    selgeo1 = args.selgeo1
+    selgeo2 = args.selgeo2
+    fac1 = args.fac1
+    fac2 = args.fac2
 
     start = time.time()
     #
@@ -432,15 +449,80 @@ if __name__ == '__main__':
             data1 = np.genfromtxt(chg1file)
             data2 = np.genfromtxt(chg2file)
 
-            atoms1 = np.genfromtxt(chg1file,usecols=[0], dtype="|S5")
-            atoms1 = map(lambda x: ELEMENTS[x].mass, atoms1)
+            at1 = np.genfromtxt(chg1file,usecols=[0], dtype="|S5")
+            atoms1 = map(lambda x: ELEMENTS[x].mass, at1)
             struct1 = data1[:,1:4] / au2ang
             chgs1 = data1[:,-1]
             
-            atoms2 = np.genfromtxt(chg2file,usecols=[0], dtype="|S5")
-            atoms2 = map(lambda x: ELEMENTS[x].mass, atoms2)
+            at2 = np.genfromtxt(chg2file,usecols=[0], dtype="|S5")
+            atoms2 = map(lambda x: ELEMENTS[x].mass, at2)
             struct2 = data2[:,1:4] / au2ang
             chgs2 = data2[:,-1]
+
+            # Rotate if reference geometries are provided
+            if geo1:
+
+                struct1_rmsd = np.copy(struct1)
+
+                if selcub1:
+
+                    selcub1 = process_selection(selcub1)
+                    struct1_rmsd = struct1_rmsd[selcub1]
+
+                # Get structure from final geometry file
+                checkfile(geo1)
+                atgeo1, structgeo1 = read_geo(geo1)
+                structgeo1_rmsd = np.copy(structgeo1)
+
+                if selgeo1:
+
+                    selgeo1 =  process_selection(selgeo1)
+                    structgeo1_rmsd = structgeo1_rmsd[selgeo1]
+
+                # Transform structure according to the RMSD
+                RMSD1, M1, T11, T21 = kabsch(structgeo1_rmsd, struct1_rmsd)
+
+                struct1 = struct1 - T11
+                struct1 = np.dot(struct1, M1)
+                struct1 = struct1 + T21
+
+                if args.dip1:
+                    dip1extchgs = np.loadtxt(args.dip1)
+                    dip1extchgs = np.dot(dip1extchgs, M1)
+                    dip1extchgsmod = np.linalg.norm(dip1extchgs)
+
+
+            if geo2:
+
+                struct2_rmsd = np.copy(struct2)
+
+                if selcub2:
+
+                    selcub2 = process_selection(selcub2)
+                    struct2_rmsd = struct2_rmsd[selcub2]
+
+                # Get structure from final geometry file
+                checkfile(geo2)
+                atgeo2, structgeo2 = read_geo(geo2)
+                structgeo2_rmsd = np.copy(structgeo2)
+
+                if selgeo2:
+
+                    selgeo2 =  process_selection(selgeo2)
+                    structgeo2_rmsd = structgeo2_rmsd[selgeo2]
+
+                # Transform structure according to the RMSD
+                RMSD2, M2, T12, T22 = kabsch(structgeo2_rmsd, struct2_rmsd)
+
+                struct2 = struct2 - T12
+                struct2 = np.dot(struct2, M2)
+                struct2 = struct2 + T22
+
+                if args.dip2:
+                    dip2extchgs = np.loadtxt(args.dip2)
+                    dip2extchgs = np.dot(dip2extchgs, M2)
+                    dip2extchgsmod = np.linalg.norm(dip2extchgs)
+
 
             coupchgs = coup_chgs(struct1, chgs1, struct2, chgs2)
             dip1chgs = dipole_chgs(struct1, chgs1)
@@ -449,6 +531,18 @@ if __name__ == '__main__':
             dip2chgsmod = np.linalg.norm(dip2chgs)
 
             coup_PDA_chgs, orifac_chgs = coup_PDA(struct1, atoms1, dip1chgs, struct2, atoms2, dip2chgs)
+            coup_PDA_ext, orifac_ext = coup_PDA(struct1, atoms1, dip1extchgs, struct2, atoms2, dip2extchgs)
+
+            final1 = []
+            for i in range(len(at1)):
+                at = [ at1[i], struct1[i,0], struct1[i,1], struct1[i,2], chgs1[i] ]
+                final1.append(at)
+
+            final2 = []
+            for i in range(len(at2)):
+                at = [ at2[i], struct2[i,0], struct2[i,1], struct2[i,2], chgs2[i] ]
+                final2.append(at)
+
             ChgsDone = True
 
     #
@@ -456,18 +550,6 @@ if __name__ == '__main__':
     #
     TrDenDone = False
     if FModule and (not calctype or calctype == 'den'):
-
-        cub1file = args.cub1
-        cub2file = args.cub2
-        thresh = args.thresh
-        selcub1 = args.selcub1
-        selcub2 = args.selcub2
-        geo1 = args.geo1
-        geo2 = args.geo2
-        selgeo1 = args.selgeo1
-        selgeo2 = args.selgeo2
-        fac1 = args.fac1
-        fac2 = args.fac2
 
         if cub1file and cub2file:
 
@@ -537,6 +619,12 @@ if __name__ == '__main__':
                 gridD = np.dot(gridD, MD)
                 gridD = gridD + T2D
 
+                if args.dip1:
+                    dip1extcub = np.loadtxt(args.dip1)
+                    dip1extcub = np.dot(dip1extcub, MD)
+                    dip1extcubmod = np.linalg.norm(dip1extcub)
+
+
                 if args.savecub:
 
                     transfcub = CUBE(cub1file)
@@ -588,7 +676,7 @@ if __name__ == '__main__':
 
 
                 # Transform grid and structure according to the RMSD
-                RMSDA, MA, T1A, T2A= kabsch(structgeoA_rmsd, structA_rmsd)
+                RMSDA, MA, T1A, T2A = kabsch(structgeoA_rmsd, structA_rmsd)
 
                 structA = structA - T1A
                 structA = np.dot(structA, MA)
@@ -597,6 +685,12 @@ if __name__ == '__main__':
                 gridA = gridA - T1A
                 gridA = np.dot(gridA, MA)
                 gridA = gridA + T2A
+
+                if args.dip2:
+                    dip2extcub = np.loadtxt(args.dip2)
+                    dip2extcub = np.dot(dip2extcub, MA)
+                    dip2extcubmod = np.linalg.norm(dip2extcub)
+
 
                 if args.savecub:
 
@@ -640,6 +734,7 @@ if __name__ == '__main__':
                 # Coupling
                 coupden = trden.couptrde(TrDenA, gridA, dVA, TrDenD, gridD, dVD, thresh)
                 coup_PDA_den, orifac_den = coup_PDA(structD, atomsD, dip1den, structA, atomsA, dip2den)
+                coup_PDA_den_ext, orifac_den_ext = coup_PDA(structD, atomsD, dip1extcub, structA, atomsA, dip2extcub)
                 TrDenDone = True
 
     elapsed = (time.time() - start)
@@ -667,26 +762,54 @@ if __name__ == '__main__':
                 f.write('J. Phys. Chem. B, 2006, 110, 17268\n')
                 f.write('\n')
                 f.write('Donor Structure and Charges:\n')
-                f.write(open(chg1file).read())
+
+                for a1 in final1:
+                    f.write("%5s %14.8f %14.8f %14.8f %10.6f\n" % tuple(a1))
+
                 f.write('\n')
+
+                if args.dip1:
+                    f.write('Donor Electric Transition Dipole Moment from input in a.u.:\n')
+                    f.write('%8s %8s %8s %15s\n' % ('x', 'y', 'z', 'norm'))
+                    f.write('%8.4f %8.4f %8.4f %15.4f\n' % (dip1extchgs[0], dip1extchgs[1], dip1extchgs[2], dip1extchgsmod))
+                    f.write('\n')
+
                 f.write('Donor Electric Transition Dipole Moment from Transition Charges in a.u.:\n')
                 f.write('%8s %8s %8s %15s\n' % ('x', 'y', 'z', 'norm'))
                 f.write('%8.4f %8.4f %8.4f %15.4f\n' % (dip1chgs[0], dip1chgs[1], dip1chgs[2], dip1chgsmod))
                 f.write('\n')
                 f.write('\n')
                 f.write('Acceptor structure and Charges:\n')
-                f.write(open(chg2file).read())
+
+                for a2 in final2:
+                    f.write("%5s %14.8f %14.8f %14.8f %10.6f\n" % tuple(a2))
+
                 f.write('\n')
+
+                if args.dip2:
+                    f.write('Acceptor Electric Transition Dipole Moment from input in a.u.:\n')
+                    f.write('%8s %8s %8s %15s\n' % ('x', 'y', 'z', 'norm'))
+                    f.write('%8.4f %8.4f %8.4f %15.4f\n' % (dip2extchgs[0], dip2extchgs[1], dip2extchgs[2], dip2extchgsmod))
+                    f.write('\n')
+
                 f.write('Acceptor Electric Transition Dipole Moment from Transition Charges in a.u.:\n')
                 f.write('%8s %8s %8s %15s\n' % ('x', 'y', 'z', 'norm'))
                 f.write('%8.4f %8.4f %8.4f %15.4f\n' % (dip2chgs[0], dip2chgs[1], dip2chgs[2], dip2chgsmod))
-                f.write('\n')
+                f.write('\n\n')
+
+                if args.dip1 and args.dip2:
+                    f.write('Electronic Coupling according to PDA from External Dipoles in cm-1:\n')
+                    f.write('%-14.6f\n' % coup_PDA_ext)
+                    f.write('\n')
+                    f.write('Orientation Factor:\n')
+                    f.write('%-10.2f\n' % orifac_ext)
+                    f.write('\n\n')
+
+                f.write('Electronic Coupling according to PDA from Dipoles from Transition Charges in cm-1:\n')
+                f.write('%-14.6f\n' % coup_PDA_chgs)
                 f.write('\n')
                 f.write('Orientation Factor:\n')
                 f.write('%-10.2f\n' % orifac_chgs)
-                f.write('\n')
-                f.write('Electronic Coupling according to PDA from Dipoles from Transition Charges in cm-1:\n')
-                f.write('%-14.6f\n' % coup_PDA_chgs)
                 f.write('\n')
                 f.write('Electronic Coupling in cm-1:\n')
                 f.write('%-14.6f\n' % coupchgs)
@@ -715,6 +838,11 @@ if __name__ == '__main__':
                     f.write('RMSD (Ang): %8.4f\n' % (RMSDD * au2ang))
                     f.write('\n')
 
+                if args.dip1:
+                    f.write('Donor Electric Transition Dipole Moment from input in a.u.:\n')
+                    f.write('%8s %8s %8s %15s\n' % ('x', 'y', 'z', 'norm'))
+                    f.write('%8.4f %8.4f %8.4f %15.4f\n' % (dip1extcub[0], dip1extcub[1], dip1extcub1[2], dip1extcubmod))
+                    f.write('\n')
 
                 f.write('Donor Electric Transition Dipole Moment from Transition Density in a.u.:\n')
                 f.write('%8s %8s %8s %15s\n' % ('x', 'y', 'z', 'norm'))
@@ -733,6 +861,12 @@ if __name__ == '__main__':
                         f.write('\n')
 
                     f.write('RMSD (Ang): %8.4f\n' % (RMSDA * au2ang))
+                    f.write('\n')
+
+                if args.dip2:
+                    f.write('Acceptor Electric Transition Dipole Moment from input in a.u.:\n')
+                    f.write('%8s %8s %8s %15s\n' % ('x', 'y', 'z', 'norm'))
+                    f.write('%8.4f %8.4f %8.4f %15.4f\n' % (dip2extcub[0], dip2extcub[1], dip2extcub1[2], dip2extcubmod))
                     f.write('\n')
 
                 f.write('Acceptor Electric Transition Dipole Moment from Transition Density in a.u.:\n')
@@ -773,3 +907,7 @@ if __name__ == '__main__':
             if TrDenDone:
                 f.write(' Tr Den          %14.6f \n' % coupden)
                 f.write(' PDA Dip Den     %14.6f \n' % coup_PDA_den)
+
+            if args.dip1 and args.dip2:
+                f.write(' PDA Dip Ext     %14.6f \n' % coup_PDA_ext)
+
