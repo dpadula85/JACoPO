@@ -292,7 +292,7 @@ if __name__ == '__main__':
         #
         # Transform properties
         #
-        if if Opts['Cub1File'] and grid1 is not None:
+        if Opts['Cub1File'] and grid1 is not None:
             grid1 = grid1 - T11
             grid1 = np.dot(grid1, M1)
             grid1 = grid1 + T21
