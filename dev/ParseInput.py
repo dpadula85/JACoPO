@@ -17,12 +17,7 @@
 
 import os
 import sys
-import time
 import numpy as np
-import argparse as arg
-
-from Opts import *
-from elements import ELEMENTS
 
 # Constants
 
