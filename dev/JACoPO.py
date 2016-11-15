@@ -40,7 +40,7 @@ except ImportError:
 
 au2ang = 0.5291771
 au2wn = 2.194746e5
-wn2eV = 8065.73
+eV2wn = 8065.544005
 
 def calc_com(coords, atoms):
 
@@ -501,11 +501,11 @@ if __name__ == '__main__':
         print
         print('Method                         cm-1           eV')
         print(banner(ch="-", length=60))
-        print('%s                %16.8f %16.8e' % (Opts['Coup'].upper(), coup, coup / wn2eV))
-        print('PDA Dip %s        %16.8f %16.8e' % (Opts['Coup'].upper(), coup_PDA, coup_PDA / wn2eV))
+        print('%s                %16.8f %16.8e' % (Opts['Coup'].upper(), coup, coup / eV2wn))
+        print('PDA Dip %s        %16.8f %16.8e' % (Opts['Coup'].upper(), coup_PDA, coup_PDA / eV2wn))
 
         if Opts['Dip1File'] and Opts['Dip2File']:
-            print('PDA Dip %s        %16.8f %16.8e' % ('Ext.', coup_PDA_ext, coup_PDA_ext / wn2eV))
+            print('PDA Dip %s        %16.8f %16.8e' % ('Ext.', coup_PDA_ext, coup_PDA_ext / eV2wn))
 
         print(banner(ch="=", length=60))
 

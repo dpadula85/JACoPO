@@ -100,12 +100,12 @@ def options():
     #
     calc = parser.add_argument_group("Calculation Options")
 
-    calc.add_argument('--thresh', default=1e-5, type=float, dest='Thresh',
-                      help='''Threshold for Transition Density Cubes.''')
-
     calc.add_argument('--coup', default=None, type=str, choices=['chgs', 'tdc'],
                       help='''Method of Calculation of the Electronic Coupling.
-                      The choice is exclusive.''', dest='Coup')
+                      The choice is exclusive.''', dest='Coup', required=True)
+
+    calc.add_argument('--thresh', default=1e-5, type=float, dest='Thresh',
+                      help='''Threshold for Transition Density Cubes.''')
 
     calc.add_argument('--nocoup', default=False, action="store_true",
                       help='''Skip coupling calculation.''', dest='SkipCoup')
