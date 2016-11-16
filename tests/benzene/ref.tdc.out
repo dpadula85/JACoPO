@@ -21,6 +21,7 @@ FinGeo1File          None
 FinGeo2File          None                
 IniGeo1File          None                
 IniGeo2File          None                
+OutFile              None                
 SaveCub              False               
 Sel1Cub              None                
 Sel1Geo              None                
@@ -99,7 +100,7 @@ Orientation Factor TDC:   1.0000
 
 Method                         cm-1           eV
 ------------------------------------------------------------
-TDC                   1404.22322431   1.74097475e-01
-PDA Dip TDC           1578.41619740   1.95694153e-01
+TDC                   1404.22322431   1.74101489e-01
+PDA Dip TDC           1578.41619740   1.95698665e-01
 ============================================================
 

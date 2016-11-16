@@ -1,7 +1,6 @@
 .PHONY: test
 test:
-	./runnew.csh
-	# ./runtests.csh
+	./runtests.csh
 
 clean:
 	rm -rf logfile

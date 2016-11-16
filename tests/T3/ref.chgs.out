@@ -21,6 +21,7 @@ FinGeo1File          mon1.xyz
 FinGeo2File          mon2.xyz            
 IniGeo1File          None                
 IniGeo2File          None                
+OutFile              None                
 SaveCub              False               
 Sel1Cub              None                
 Sel1Geo              None                
@@ -121,7 +122,7 @@ Orientation Factor CHGS:  -0.8660
 
 Method                         cm-1           eV
 ------------------------------------------------------------
-CHGS                   -712.85526316  -8.83807496e-02
-PDA Dip CHGS          -4087.61851409  -5.06788414e-01
+CHGS                   -712.85526316  -8.83827877e-02
+PDA Dip CHGS          -4087.61851409  -5.06800101e-01
 ============================================================
 
