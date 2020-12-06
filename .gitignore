@@ -1,2 +1,5 @@
 *.pyc
 *.so
+*.pth
+*egg*
+*build*

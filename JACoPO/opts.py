@@ -105,9 +105,6 @@ def options():
 
     out.add_argument('-o', '--output', default=None, type=str, dest='OutFile',
                      help='''Output File.''')
-    out.add_argument('--savecub', default=False, action="store_true", dest='SaveCub',
-                     help='''Save Transition Density Cubes after transformation
-                     in space.''')
 
     out.add_argument('-v', '--verbosity',
                      default=0, action="count", dest="Verb",
