@@ -17,10 +17,6 @@
 
 import argparse as arg
 
-# Constants
-
-au2ang = 0.5291771
-au2wn = 2.194746e5
 
 def options():
     '''Defines the options of the script.'''
@@ -101,10 +97,6 @@ def options():
 
     calc.add_argument('--thresh', default=1e-5, type=float, dest='Thresh',
                       help='''Threshold for Transition Density Cubes.''')
-
-    calc.add_argument('--nocoup', default=False, action="store_true",
-                      help='''Skip coupling calculation.''', dest='SkipCoup')
-
 
     #
     # Output Options

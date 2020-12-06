@@ -33,88 +33,57 @@ and with the dipole--dipole approximation (also known as Point Dipole Approximat
 
 \section{Requirements}
 
-\jacopo\ is a program written in Python and Fortran 90. A working installation of python with numpy and a fortran compiler (such as gfortran) are the only requirements.
+\jacopo\ is a program written in Python and Fortran 90. A working installation of python and a fortran compiler (such as gfortran) are the only requirements.
 
 \section{Installation}
 
-\jacopo\ should run on both Windows and Unix platforms. However, since the program has not been tested on a Windows machine,
-all the steps reported below imply that you are using a Unix machine.
-
 To install \jacopo\ on your machine, few simple steps are needed.
-To get a copy of the program, there are a couple of alternatives.
-You could clone the git repository of the program:
+Get a copy of the program cloning the git repository:
 
 \begin{verbatim}
   $ git clone https://github.com/dpadula85/JACoPO 
 \end{verbatim}
 
-This way, you can always be updated to the last changes to the program by running
-
-\begin{verbatim}
-  $ git pull 
-\end{verbatim}
-
-in the main directory of the repo.
-
 Alternatively, you could browse to the address \url{https://github.com/dpadula85/JACoPO} and download a \verb|.zip| file with the appropriate button.
 
-The directory structure of the program is as follows
+% The directory structure of the program is as follows
+% 
+% \begin{forest}
+%   for tree={
+%     font=\ttfamily,
+%     grow'=0,
+%     child anchor=west,
+%     parent anchor=south,
+%     anchor=west,
+%     calign=first,
+%     edge path={
+%       \noexpand\path [draw, \forestoption{edge}]
+%       (!u.south west) +(7.5pt,0) |- node[fill,inner sep=1.25pt] {} (.child anchor)\forestoption{edge label};
+%     },
+%     before typesetting nodes={
+%       if n=1
+%         {insert before={[,phantom]}}
+%         {}
+%     },
+%     fit=band,
+%     before computing xy={l=15pt},
+%   }
+% [./
+%   [doc]
+%   [JACoPO]
+%   [tests]
+% ]
+% \end{forest}
 
-\begin{forest}
-  for tree={
-    font=\ttfamily,
-    grow'=0,
-    child anchor=west,
-    parent anchor=south,
-    anchor=west,
-    calign=first,
-    edge path={
-      \noexpand\path [draw, \forestoption{edge}]
-      (!u.south west) +(7.5pt,0) |- node[fill,inner sep=1.25pt] {} (.child anchor)\forestoption{edge label};
-    },
-    before typesetting nodes={
-      if n=1
-        {insert before={[,phantom]}}
-        {}
-    },
-    fit=band,
-    before computing xy={l=15pt},
-  }
-[./
-  [dev]
-  [doc]
-  [stable]
-  [tests]
-]
-\end{forest}
-
-The \verb|dev| and \verb|stable| directories should be the same, apart from experimental features under development in the \verb|dev| folder.
-We recommend you use the executables in the \verb|stable| folder.
-Make sure that the python files in this directory (\verb|.py| extension) are executable. If they are not, run the commands
-
+Install requirements by running
 \begin{verbatim}
-  $ cd stable
-  $ chmod +x *.py
+  $ pip install -r requirements.txt
 \end{verbatim}
 
-The program contains a Fortran90 module to be compiled. To do this, run the following command in the \verb|stable| folder.
-
+Finally, the package can be installed running
 \begin{verbatim}
-  $ make 
+  $ python setup.py install 
 \end{verbatim}
-
-If everything worked fine, you can skip the rest of this section, since it deals with troubleshooting in this phase.
-
-In some cases, we experienced problems with some numpy installations that were not respoding correctly to this command.
-If this is your case, try running
-
-\begin{verbatim}
-  $ make clean
-  $ make alternative
-\end{verbatim}
-
-If you keep getting errors, please contact us.
-Once these steps are done, \jacopo\ should be ready to work!
 
 \section{Running tests}
 
@@ -210,68 +179,7 @@ The data needed to run \jacopo\ are transition charges and transition density cu
 A short help including the list of options is available by running the command
 
 \begin{verbatim}
-  $ ./JACoPO.py -h
-\end{verbatim}
-
-in the folder containing the JACoPO.py python file. The output of this command is as follows.
-
-\begin{verbatim}
-  $ ./JACoPO.py -h
-usage: JACoPO.py [-h] [--chg1 CHG1] [--chg2 CHG2] [--cub1 CUB1] [--fac1 FAC1]
-                 [--selcub1 SELCUB1 [SELCUB1 ...]] [--geo1 GEO1]
-                 [--selgeo1 SELGEO1 [SELGEO1 ...]] [--cub2 CUB2] [--fac2 FAC2]
-                 [--selcub2 SELCUB2 [SELCUB2 ...]] [--savecub] [--geo2 GEO2]
-                 [--selgeo2 SELGEO2 [SELGEO2 ...]] [--thresh THRESH]
-                 [--coup {chgs,den}] [--nocoup] [-o OUTPUT]
-
-Calculates Electronic Coupling from Transition Charges and Densities.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --chg1 CHG1           File with coordinates and charges for monomer 1.
-                        (default: None)
-  --chg2 CHG2           File with coordinates and charges for monomer 2.
-                        (default: None)
-  --cub1 CUB1           Transition Density Cube for monomer 1. (default:
-                        mon1.cub)
-  --fac1 FAC1           Scaling factor for Transition Density Cube of monomer
-                        1. (default: 1.0)
-  --selcub1 SELCUB1 [SELCUB1 ...]
-                        Atom Selection for Transition Density Cube for monomer
-                        1. This can either be a list or a file. (default:
-                        None)
-  --geo1 GEO1           Geometry on which the Transition Density Cube of
-                        monomer 1 will be projected. (Units: Angstrom)
-                        (default: None)
-  --selgeo1 SELGEO1 [SELGEO1 ...]
-                        Atom Selection for geometry 1. This can either be a
-                        list or a file, which should contain the list.
-                        (default: None)
-  --cub2 CUB2           Transition Density Cube for monomer 2. (default:
-                        mon2.cub)
-  --fac2 FAC2           Scaling factor for Transition Density Cube of monomer
-                        2. (default: 1.0)
-  --selcub2 SELCUB2 [SELCUB2 ...]
-                        Atom Selection for Transition Density Cube for monomer
-                        2. This can either be a list or a file, which should
-                        contain the list. (default: None)
-  --savecub             Save Transition Density Cubes after transformation in
-                        space. (default: False)
-  --geo2 GEO2           Geometry on which the Transition Density Cube of
-                        monomer 2 will be projected. (Units: Angstrom)
-                        (default: None)
-  --selgeo2 SELGEO2 [SELGEO2 ...]
-                        Atom Selection for geometry 2. This can either be a
-                        list or a file. (default: None)
-  --thresh THRESH       Threshold for Transition Density Cubes. (default:
-                        1e-05)
-  --coup {chgs,den}     Method of Calculation of the Electronic Coupling. If
-                        no method is specified, both methods will be used.
-                        (default: None)
-  --nocoup              Skip coupling calculation. (default: False)
-  -o OUTPUT, --output OUTPUT
-                        Output File. (default: Coup.out)
-
+  $ compute_coupling -h
 \end{verbatim}
 
 Let's have a quick look at all these options and what they require as arguments.

@@ -6,7 +6,7 @@ set prj = ( "benzene_prj" "bodipy_prj" "T3_prj" )
 set logfile = "$WDir/logfile"
 set failed = "0"
 set passed = "0"
-set jac = "../../dev/JACoPO.py"
+set jac = "../../compute_coupling"
 set total = "0"
 
 if ( -e $logfile ) then
