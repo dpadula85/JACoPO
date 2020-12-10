@@ -1,18 +1,18 @@
 Subroutine coultdc(trdena,grida,dva,trdend,gridd,dvd,thresh,na,nd,couptd)
 
-    IMPLICIT None
+IMPLICIT None
 ! Input Variables
-    INTEGER, intent(in) :: na,nd
-    REAL(8), intent(in) :: dva,dvd,thresh
-    REAL(8), DIMENSION(na), intent(in) :: trdena
-    REAL(8), DIMENSION(na,3), intent(in) :: grida
-    REAL(8), DIMENSION(nd), intent(in) :: trdend
-    REAL(8), DIMENSION(nd,3), intent(in) :: gridd
+INTEGER, intent(in) :: na,nd
+REAL(8), intent(in) :: dva,dvd,thresh
+REAL(8), DIMENSION(na), intent(in) :: trdena
+REAL(8), DIMENSION(nd), intent(in) :: trdend
+REAL(8), DIMENSION(na,3), intent(in) :: grida
+REAL(8), DIMENSION(nd,3), intent(in) :: gridd
 ! Internal and output Variables
-    REAL(8), DIMENSION(3) :: r12
-    REAL(8) :: autown,r,couptd_local,width
-    INTEGER :: i,j,OMP_GET_NUM_THREADS
-    REAL(8), intent(out) :: couptd
+REAL(8), DIMENSION(3) :: r12
+REAL(8) :: r,couptd_local,width
+INTEGER :: i,j,OMP_GET_NUM_THREADS
+REAL(8), intent(out) :: couptd
 
 ! Description of the Variables:
 ! r12 is the distance between two points of the grid
